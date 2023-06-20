@@ -1,69 +1,33 @@
-import json
-from django.contrib.auth import authenticate, login, logout
-from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
-from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
-from django.shortcuts import render
-from django.urls import reverse
-from django.views.decorators.csrf import csrf_exempt
-from django.core.paginator import Paginator
-
+from rest_framework import viewsets
+from .serializers import UserSerializer
+from rest_framework.views import APIView
+from rest_framework.authtoken.models import Token
+from rest_framework.response import Response
+from django.contrib.auth import authenticate
 from .models import User
 
 # Create your views here.
-def index(request):
-    return render(request, "expense/index.html")
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+
+    def create(self, request):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
 
 
-def login_view(request):
-    if request.method == "POST":
+class LoginView(APIView):
+    def post(self, request):
+        username = request.data.get('username')
+        password = request.data.get('password')
 
-        # Attempt to sign user in
-        username = request.POST["username"]
-        password = request.POST["password"]
-        user = authenticate(request, username=username, password=password)
+        user = authenticate(username=username, password=password)
 
-        # Check if authentication successful
         if user is not None:
-            login(request, user)
-            return HttpResponseRedirect(reverse("index"))
-        else:
-            return render(request, "expense/login.html", {
-                "message": "Invalid username and/or password."
-            })
-    else:
-        return render(request, "expense/login.html")
+            token, created = Token.objects.get_or_create(user=user)
+            return Response({"message": "login successfully",
+                             "token": token.key}, status=200)
 
-
-def logout_view(request):
-    logout(request)
-    return HttpResponseRedirect(reverse("index"))
-
-
-def register(request):
-    if request.method == "POST":
-        username = request.POST["username"]
-        email = request.POST["email"]
-
-        # Ensure password matches confirmation
-        password = request.POST["password"]
-        confirmation = request.POST["confirmation"]
-        if password != confirmation:
-            return render(request, "expense/register.html", {
-                "message": "Passwords must match."
-            })
-
-        # Attempt to create new user
-        try:
-            user = User.objects.create_user(username, email, password)
-            user.save()
-        except IntegrityError:
-            return render(request, "expense/register.html", {
-                "message": "Username already taken."
-            })
-        login(request, user)
-        return HttpResponseRedirect(reverse("index"))
-    else:
-        return render(request, "expense/register.html")
-    
+        return Response({"error": "User not found"}, status=400)

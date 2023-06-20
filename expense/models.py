@@ -3,6 +3,6 @@ from django.db import models
 
 # Create your models here.
 class User(AbstractUser):
-    pass
+    starting_amt = models.DecimalField(default=0, max_digits=12, decimal_places=2)
 
 
