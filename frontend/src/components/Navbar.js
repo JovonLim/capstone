@@ -13,7 +13,7 @@ function Navbar() {
     links = 
     <>
     <li class="nav-item">
-      <NavLink to="/expenses" className="nav-link" style={{fontFamily: 'cursive'}}>All Expenses</NavLink>
+      <NavLink to="/expenses" className="nav-link" style={{fontFamily: 'cursive'}}>All Transactions</NavLink>
     </li>
     <li class="nav-item">
       <NavLink to="/profile" className="nav-link" style={{fontFamily: 'cursive'}}>{user}</NavLink>
@@ -35,7 +35,7 @@ function Navbar() {
   }
   return (
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-           <NavLink to="/" className="navbar-brand" style={{fontFamily: 'cursive'}}>ExpenseManager</NavLink>
+           <NavLink to="/" className="navbar-brand" style={{fontFamily: 'cursive'}}>TransactionsManager</NavLink>
           <div>
             <ul class="navbar-nav mr-auto">
               { links }      

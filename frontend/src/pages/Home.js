@@ -7,15 +7,15 @@ class Home extends Component {
     
     if (token !== null) {
       const user = localStorage.getItem('user');
-      return <div>
+      return <div id="home">
         <h1>Welcome {user}!</h1>
-        <h2>Click on all expenses to check your expenses!</h2>
+        <h2>Click on all transactions to check your transactions!</h2>
       </div>
     } else {
       return (
-        <div>
-          <h1>Welcome to ExpenseManager!</h1>
-          <h2>Sign in to start keeping track of your expenses!</h2>
+        <div id="home">
+          <h1>Welcome to TransactionsManager!</h1>
+          <h2>Sign in to start keeping track of your various transactions!</h2>
         </div>
       );
     }

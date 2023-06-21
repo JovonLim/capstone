@@ -32,7 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'expense',
+    'transaction',
     'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
@@ -100,7 +100,7 @@ DATABASES = {
     }
 }
 
-AUTH_USER_MODEL = "expense.User"
+AUTH_USER_MODEL = "transaction.User"
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

@@ -46,43 +46,40 @@ function UserForm({ navigate, isLogin, title }) {
     });
   };
 
-  let msg, amtInput; 
-  if (error !== '') {
-    msg = <p className="alert alert-danger">{error}</p>
-  }
+  let amtInput; 
   if (!isLogin) {
     amtInput = 
-    <div class="form-group mb-3">
+    <div className="form-group mb-3">
       <label>Starting Amount</label>
-      <input class="form-control" type="number" step="0.01" required
+      <input className="form-control" type="number" step="0.01" required
         value={amt}
         onChange={e => setAmt(e.target.value)}
       />
     </div>
   }
   return (
-    <div class="center">
+    <div className="center user">
     <h3>{title}</h3>
-    { msg }
+    {error && <p className="alert alert-danger">{error}</p>}
     <form onSubmit={handleSubmit}>
-      <div class="form-group mb-3">
+      <div className="form-group mb-3">
         <label>Username</label>
-        <input class="form-control" type="text" required
+        <input className="form-control" type="text" required
           value={username}
           onChange={e => setUsername(e.target.value)}
         />
       </div>
 
-      <div class="form-group mb-3">
+      <div className="form-group mb-3">
         <label>Password</label>
-        <input class="form-control" type="password" required
+        <input className="form-control" type="password" required
           value={password}
           onChange={e => setPassword(e.target.value)}
         />
       </div>
       {amtInput}
-      <div class="submit">
-        <button type="submit" class="btn btn-primary">{title}</button>
+      <div className="form-buttons">
+        <button type="submit" className="btn btn-primary">{title}</button>
       </div>
     </form>
   </div>
