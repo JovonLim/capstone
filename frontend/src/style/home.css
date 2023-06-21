@@ -1,0 +1,17 @@
+div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+h1 {
+  font-size: 40px;
+  font-family: cursive;
+}
+
+h2 {
+  font-size: 28px;
+  font-family: cursive;
+}
+

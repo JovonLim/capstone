@@ -1,42 +1,41 @@
 import React from 'react';
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
+import LogoutButton from './LogoutBtn';
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function Navbar() {
   const location = useLocation();
-  const navigate = useNavigate();
   const token = localStorage.getItem('token');
-
-  function handlelogout() {
-    localStorage.removeItem('token');
-    navigate('/login');
-  }
   
   let links;
   if (token !== null) {
+    const user = localStorage.getItem('user');
     links = 
     <>
     <li class="nav-item">
-      <NavLink to="/" className="nav-link">All Expenses</NavLink>
+      <NavLink to="/expenses" className="nav-link" style={{fontFamily: 'cursive'}}>All Expenses</NavLink>
     </li>
     <li class="nav-item">
-      <button className="nav-link" onClick={handlelogout}>Logout</button>
+      <NavLink to="/profile" className="nav-link" style={{fontFamily: 'cursive'}}>{user}</NavLink>
+    </li>
+    <li class="nav-item">
+      < LogoutButton />
     </li>
     </>
   } else {
     links = 
     <>
     <li class="nav-item">
-      <NavLink to="/login" className="nav-link">Login</NavLink>
+      <NavLink to="/login" className="nav-link" style={{fontFamily: 'cursive'}}>Login</NavLink>
     </li>      
     <li class="nav-item">
-      <NavLink to="/register" className="nav-link">Register</NavLink>
+      <NavLink to="/register" className="nav-link" style={{fontFamily: 'cursive'}}>Register</NavLink>
     </li>
     </>
   }
   return (
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-           <NavLink to="/" className="navbar-brand">ExpenseManager</NavLink>
+           <NavLink to="/" className="navbar-brand" style={{fontFamily: 'cursive'}}>ExpenseManager</NavLink>
           <div>
             <ul class="navbar-nav mr-auto">
               { links }      

@@ -3,7 +3,7 @@ from .serializers import UserSerializer
 from rest_framework.views import APIView
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login, logout
 from .models import User
 
 # Create your views here.
@@ -26,8 +26,15 @@ class LoginView(APIView):
         user = authenticate(username=username, password=password)
 
         if user is not None:
+            login(request, user)
             token, created = Token.objects.get_or_create(user=user)
             return Response({"message": "login successfully",
+                             "user": username,
                              "token": token.key}, status=200)
 
-        return Response({"error": "User not found"}, status=400)
+        return Response({"username": "User not found"}, status=400)
+    
+class LogoutView(APIView):
+    def post(self, request):
+        logout(request)
+        return Response({"message": "login successfully"}, status=200)

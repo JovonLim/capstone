@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import LoginPage from './pages/Login';
 import RegisterPage from './pages/Register';
+import ExpensesPage from './pages/Expenses';
 import Navbar from './components/Navbar';
 
 class App extends Component {
@@ -14,6 +15,7 @@ class App extends Component {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/expenses" element={<ExpensesPage />} />
       </Routes>
     </Router>
     );
