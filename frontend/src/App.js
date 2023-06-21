@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import LoginPage from './pages/Login';
 import RegisterPage from './pages/Register';
 import TransactionsPage from './pages/Transactions';
+import NotFoundPage from './pages/NotFound';
 import Navbar from './components/Navbar';
 
 class App extends Component {
@@ -16,6 +17,7 @@ class App extends Component {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/expenses" element={<TransactionsPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>
     );

@@ -1,4 +1,4 @@
-#home {
+.front {
   display: flex;
   flex-direction: column;
   justify-content: center;

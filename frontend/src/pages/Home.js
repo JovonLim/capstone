@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "../style/home.css";
+import "../style/page.css";
 
 class Home extends Component {
   render() {
@@ -7,13 +7,13 @@ class Home extends Component {
     
     if (token !== null) {
       const user = localStorage.getItem('user');
-      return <div id="home">
+      return <div class="front">
         <h1>Welcome {user}!</h1>
         <h2>Click on all transactions to check your transactions!</h2>
       </div>
     } else {
       return (
-        <div id="home">
+        <div class="front">
           <h1>Welcome to TransactionsManager!</h1>
           <h2>Sign in to start keeping track of your various transactions!</h2>
         </div>

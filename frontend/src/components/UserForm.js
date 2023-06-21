@@ -22,8 +22,7 @@ function UserForm({ navigate, isLogin, title }) {
         'Content-Type': 'application/json',
         'X-CSRFToken': Cookies.get('csrftoken')
       }
-    }
-    )
+    })
     .then((response) => {
       if (isLogin) {
         const receivedToken = response.data['token'];

@@ -14,8 +14,15 @@
 }
 
 .transaction {
+  color:white;
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  background-color: rgba(0, 0, 0, 0.8);
   margin-top: 20px;
   width: 15vw;
+  min-width: fit-content;
 }
 
 h3 {
