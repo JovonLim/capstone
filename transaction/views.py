@@ -46,7 +46,7 @@ class TransactionViewSet(viewsets.ModelViewSet):
     serializer_class = TransactionSerializer
     queryset = Transaction.objects.all()
     pagination_class = PageNumberPagination
-    page_size = 10
+    page_size = 5
     
     def create(self, request):
         request.data['user'] = request.user.id
@@ -63,6 +63,11 @@ class TransactionViewSet(viewsets.ModelViewSet):
         page = pagination.paginate_queryset(queryset=transactions, request=request)
         serializer = self.get_serializer(page, many=True)
         return pagination.get_paginated_response(serializer.data)
+    
+    def destroy(self, request, pk=None):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response(status=204)
     
     @action(detail=False)
     def get_categories(self, request):
