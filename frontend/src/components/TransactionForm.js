@@ -3,7 +3,7 @@ import axios from 'axios'
 import "bootstrap/dist/css/bootstrap.min.css";
 import Cookies from 'js-cookie';
 
-function TransactionForm({toggleForm, token}) {
+function TransactionForm({toggleForm, token, transaction, setEditTransaction}) {
   const [amt, setAmt] = useState('');
   const [trType, setTrType] = useState('Expense');
   const [desc, setDesc] = useState('');
@@ -16,6 +16,7 @@ function TransactionForm({toggleForm, token}) {
 
   useEffect(() => {
     fetchExistingCategories();
+    populateFields();
   }, []);
 
   const fetchExistingCategories = () => {
@@ -27,24 +28,73 @@ function TransactionForm({toggleForm, token}) {
     .then(response => setCategories(response.data.categories));
   }
 
+  const populateFields = () => {
+    if (transaction.id) {
+      setAmt(transaction.amt);
+      setTrType(transaction.tr_type);
+      setDesc(transaction.description);
+      setCategory(transaction.category);
+      setDate(transaction.date);
+    }
+  }
+
+  const getDifferences = () => {
+    const data = {};
+    const submittedCategory = category === 'newCategory' ? newCategory : category;
+    if (amt !== transaction.amt) {
+      data['amt'] = amt;
+    }
+    if (trType !== transaction.tr_type) {
+      data['tr_type'] = trType;
+    }
+    if (submittedCategory !== transaction.category) {
+      data['category'] = submittedCategory;
+    }
+    if (desc !== transaction.description) {
+      data['description'] = desc;
+    }
+    if (date !== transaction.date) {
+      data['date'] = date;
+    }
+    return data
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    const submittedCategory = category === 'newCategory' ? newCategory : category;
-    axios.post('http://127.0.0.1:8000/api/transactions/', {
-      amt: amt,
-      description: desc,
-      tr_type: trType,
-      category: submittedCategory,
-      date: date
-    }, {
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken': Cookies.get('csrftoken'),
-          'Authorization': `Token ${token}`
-        }
+    const headers = {
+      'Content-Type': 'application/json',
+      'X-CSRFToken': Cookies.get('csrftoken'),
+      'Authorization': `Token ${token}`
+    };
+
+    if (transaction.id) {
+      const data = getDifferences();
+      axios.patch(`http://127.0.0.1:8000/api/transactions/${transaction.id}/`, data, {
+        headers: headers
       })
-      .then(response => toggleForm())
+      .then(response=> {
+        setEditTransaction({});
+        toggleForm();
+      })
       .catch(error => setError(error.response.data.amt));
+
+    } else {
+      const submittedCategory = category === 'newCategory' ? newCategory : category;
+      axios.post('http://127.0.0.1:8000/api/transactions/', {
+        amt: amt,
+        description: desc,
+        tr_type: trType,
+        category: submittedCategory,
+        date: date
+    }, {
+        headers: headers
+      })
+      .then(response => {
+        setEditTransaction({});
+        toggleForm();
+      })
+      .catch(error => setError(error.response.data.amt));
+    }
   };
 
   const handleCategoryChange = (e) => {
@@ -58,7 +108,7 @@ function TransactionForm({toggleForm, token}) {
 
   return (
     <div className='center transaction'>
-      <h3>Add new Transaction</h3>
+      {transaction.id ? <h3>Edit Transaction</h3> : <h3>Add new Transaction</h3>}
       {error && <p className="alert alert-danger">{error}</p>}
       <form onSubmit={handleSubmit}>
         <div className="form-group mb-3">
@@ -118,7 +168,7 @@ function TransactionForm({toggleForm, token}) {
 
         <div className='form-buttons'>
           <button type="submit" className='btn btn-primary'>Submit</button>
-          <button className='btn btn-danger' type="button" onClick={toggleForm}>Cancel</button>
+          <button className='btn btn-danger' type="button" onClick={() => {setEditTransaction({}); toggleForm();}}>Cancel</button>
         </div>
       </form>
     </div>

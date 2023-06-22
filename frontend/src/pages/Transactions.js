@@ -8,6 +8,7 @@ import Cookies from 'js-cookie';
 function TransactionsPage() {
   const [showform, setShowForm] = useState(false);
   const [transactions, setTransactions] = useState([]);
+  const [editTransaction, setEditTransaction] = useState({});
   const [page, setPage] = useState(1);
   const [totalpages, setTotalPages] = useState(1);
   const token = localStorage.getItem('token');
@@ -26,7 +27,6 @@ function TransactionsPage() {
         'Authorization': `Token ${token}`
       }
     }).then(response => {
-      console.log(response);
       setTotalPages(Math.ceil(response.data.count / 5));
       setTransactions(response.data.results);});
   }
@@ -46,6 +46,11 @@ function TransactionsPage() {
     });
   }
 
+  const editExpense = (transaction) => {
+    setEditTransaction(transaction);
+    toggleForm();
+  }
+
   return (
     <div class="container-bg">
       <div className="container">
@@ -54,14 +59,14 @@ function TransactionsPage() {
         <button className="btn btn-secondary"><span className="button-text">Filter</span></button>
         <button className="btn btn-primary" onClick={toggleForm}><span className="button-text">Add Transaction</span></button>
       </div>
-      {showform && <TransactionForm toggleForm={toggleForm} token={token} />}
+      {showform && <TransactionForm toggleForm={toggleForm} token={token} transaction={editTransaction} setEditTransaction={setEditTransaction} />}
 
       {transactions.map((transaction) => (
         <div key={transaction.id} className="card expense">
           <div className="card-header headings">
             <span>{transaction.date}</span>
             <div className='expense-btns'>
-              <button type="button" className="btn btn-transparent shadow-none"><span className="button-text">Edit</span></button>
+              <button type="button" className="btn btn-transparent shadow-none" onClick={() => editExpense(transaction)}><span className="button-text">Edit</span></button>
               <button type="button" className="btn-close shadow-none" onClick={() => deleteExpense(transaction.id)}></button>
             </div>
           </div>

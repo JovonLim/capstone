@@ -40,7 +40,7 @@ class LoginView(APIView):
     
 class LogoutView(APIView):
     def post(self, request):
-        return Response({"message": "login successfully"}, status=200)
+        return Response({"message": "logout successfully"}, status=200)
     
 class TransactionViewSet(viewsets.ModelViewSet):
     serializer_class = TransactionSerializer
@@ -68,6 +68,14 @@ class TransactionViewSet(viewsets.ModelViewSet):
         instance = self.get_object()
         self.perform_destroy(instance)
         return Response(status=204)
+
+    def partial_update(self, request, pk=None):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=200)
+        return Response(serializer.errors, status=400)
     
     @action(detail=False)
     def get_categories(self, request):
