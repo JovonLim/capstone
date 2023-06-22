@@ -14,7 +14,7 @@ class Home extends Component {
     } else {
       return (
         <div class="front">
-          <h1>Welcome to TransactionsManager!</h1>
+          <h1>Welcome to TransactionsTracker!</h1>
           <h2>Sign in to start keeping track of your various transactions!</h2>
         </div>
       );

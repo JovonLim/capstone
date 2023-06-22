@@ -6,6 +6,7 @@ import Cookies from 'js-cookie';
 function TransactionForm({toggleForm, token}) {
   const [amt, setAmt] = useState('');
   const [trType, setTrType] = useState('Expense');
+  const [desc, setDesc] = useState('');
   const [category, setCategory] = useState('newCategory');
   const [newCategory, setNewCategory] = useState('');
   const [date, setDate] = useState('');
@@ -31,6 +32,7 @@ function TransactionForm({toggleForm, token}) {
     const submittedCategory = category === 'newCategory' ? newCategory : category;
     axios.post('http://127.0.0.1:8000/api/transactions/', {
       amt: amt,
+      description: desc,
       tr_type: trType,
       category: submittedCategory,
       date: date
@@ -68,8 +70,16 @@ function TransactionForm({toggleForm, token}) {
         </div>
 
         <div className="form-group mb-3">
+          <label> Description:</label>
+          <input className="form-control" type="text" maxLength={30}
+            value={desc}
+            onChange={(e) => setDesc(e.target.value)}
+          />
+        </div>
+
+        <div className="form-group mb-3">
           <label>Transaction Type:</label>
-          <select className="form-control" required
+          <select className="form-control"
               value={trType} 
               onChange={(e) => setTrType(e.target.value)}>
             <option value="Expense">Expense</option>

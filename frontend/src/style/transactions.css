@@ -4,5 +4,29 @@
 }
 
 .title {
-  text-align: center;
+  color: white;
+}
+
+.expense {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-family: sans-serif;
+}
+
+.headings {
+  display: flex;
+  justify-content: space-between;
+}
+
+.body {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  background-color: bisque;
+}
+
+.container-bg {
+  background-color: #1F2937;
+  min-height: 100vh;
 }

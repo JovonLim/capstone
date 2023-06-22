@@ -19,8 +19,8 @@
   left: 0;
   right: 0;
   z-index: 2;
-  background-color: rgba(0, 0, 0, 0.8);
-  margin-top: 20px;
+  background-color:#1F2937;
+  margin-top: 40px;
   width: 15vw;
   min-width: fit-content;
 }

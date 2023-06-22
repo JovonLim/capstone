@@ -1,5 +1,6 @@
 from rest_framework import viewsets, permissions
 from .serializers import UserSerializer, TransactionSerializer
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.views import APIView
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import action
@@ -44,6 +45,8 @@ class LogoutView(APIView):
 class TransactionViewSet(viewsets.ModelViewSet):
     serializer_class = TransactionSerializer
     queryset = Transaction.objects.all()
+    pagination_class = PageNumberPagination
+    page_size = 10
     
     def create(self, request):
         request.data['user'] = request.user.id
@@ -54,9 +57,12 @@ class TransactionViewSet(viewsets.ModelViewSet):
         return Response(serializer.errors, status=400)
     
     def list(self, request):
-        transactions = self.queryset.filter(user=request.user)
-        serializer = self.get_serializer(transactions, many=True)
-        return Response(serializer.data, status=200)
+        transactions = self.queryset.filter(user=request.user).order_by('-date')
+        pagination = self.pagination_class()
+        pagination.page_size = self.page_size
+        page = pagination.paginate_queryset(queryset=transactions, request=request)
+        serializer = self.get_serializer(page, many=True)
+        return pagination.get_paginated_response(serializer.data)
     
     @action(detail=False)
     def get_categories(self, request):

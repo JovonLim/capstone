@@ -13,6 +13,7 @@ class Transaction(models.Model):
         income = "Income"
     amt = models.DecimalField(max_digits=12, decimal_places=2, validators=[MinValueValidator(Decimal('0.01'))])
     tr_type = models.CharField(max_length=7, choices=TransactionType.choices)
+    description = models.CharField(max_length=30, blank=True, default="")
     category = models.CharField(max_length=30, default="Others")
     date = models.DateField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
