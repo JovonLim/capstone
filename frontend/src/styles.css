@@ -1,0 +1,96 @@
+.bg {
+  background-color: #1F2937;
+  min-height: 100vh;
+}
+
+.center {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  padding: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: cursive;
+}
+
+.user {
+  margin-top: 20vh;
+  width: 20vw;
+}
+
+h1 {
+  font-size: 40px;
+  font-family: cursive;
+}
+
+h2 {
+  font-size: 28px;
+  font-family: cursive;
+}
+h3 {
+  text-align: center;
+}
+
+.front {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.title {
+  color: white;
+}
+
+.headings {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.body {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  background-color: bisque;
+}
+
+.button-text {
+  font-size: 20px;
+  font-family: cursive;
+}
+
+.transaction {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-family: sans-serif;
+}
+
+.transaction-form {
+  color:white;
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  background-color:#1F2937;
+  margin-top: 40px;
+  width: 15vw;
+  min-width: fit-content;
+}
+
+.transaction-btns {
+  display: flex;
+  align-items: center;
+}
+
+.transaction-form-btns {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.transaction-page-btns {
+  display: flex;
+  justify-content: space-between;
+}
+

@@ -8,6 +8,12 @@ function TransactionsPage() {
   const [showform, setShowForm] = useState(false);
   const [showOption, setShowOption] = useState(false);
   const [transactions, setTransactions] = useState([]);
+  const [filteredDetails, setFilteredDetails] = useState({
+    tr_type: '',
+    categories: [],
+    from: '',
+    to: ''
+  });
   const [editTransaction, setEditTransaction] = useState({});
   const [page, setPage] = useState(1);
   const [totalpages, setTotalPages] = useState(1);
@@ -22,12 +28,14 @@ function TransactionsPage() {
   }
 
   useEffect(() => {
-    fetchExpenses();
-  }, [showform, page]);
+    fetchExpenses(filteredDetails);
+  }, [showform, showOption, page]);
 
-  const fetchExpenses = () => {
+  const fetchExpenses = (params) => {
     axios.get(`http://127.0.0.1:8000/api/transactions/?page=${page}`, {
+      params: params,
       headers: {
+        'Content-Type': 'application/json',
         'Authorization': `Token ${token}`
       }
     }).then(response => {
@@ -57,20 +65,20 @@ function TransactionsPage() {
   }
 
   return (
-    <div class="container-bg">
-      <div className="container">
+    <div className="container">
       <h1 className="title text-center">All Transactions</h1>
-      <div className="buttons">
+      <div className="transaction-page-btns">
         <button className="btn btn-secondary" onClick={toggleOption}><span className="button-text">Filter</span></button>
         <button className="btn btn-primary" onClick={toggleForm}><span className="button-text">Add Transaction</span></button>
       </div>
       {showform && <TransactionForm toggleForm={toggleForm} token={token} transaction={editTransaction} setEditTransaction={setEditTransaction} />}
-      {showOption && <FilterOptions toggleOption={toggleOption} token={token} />}
+      {showOption && <FilterOptions filteredDetails={filteredDetails} setFilteredDetails={setFilteredDetails}
+       toggleOption={toggleOption} token={token} setPage={setPage} />}
       {transactions.map((transaction) => (
-        <div key={transaction.id} className="card expense">
+        <div key={transaction.id} className="card transaction">
           <div className="card-header headings">
             <span>{transaction.date}</span>
-            <div className='expense-btns'>
+            <div className='transaction-btns'>
               <button type="button" className="btn btn-transparent shadow-none" onClick={() => editExpense(transaction)}><span className="button-text">Edit</span></button>
               <button type="button" className="btn-close shadow-none" onClick={() => deleteExpense(transaction.id)}></button>
             </div>
@@ -93,9 +101,7 @@ function TransactionsPage() {
         && <button className="page-link" onClick={() => setPage(page + 1)}><span className="button-text">Next</span></button>}
       </ul>
     </nav>
-      </div>
-      
-    </div>
+  </div>
   );
 };
 

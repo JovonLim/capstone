@@ -60,10 +60,22 @@ class TransactionViewSet(viewsets.ModelViewSet):
         return Response(serializer.errors, status=400)
     
     def list(self, request):
-        transactions = self.queryset.filter(user=request.user).order_by('-date')
+        tr_type = request.query_params.get('tr_type')
+        categories = request.query_params.getlist('categories[]')
+        from_date = request.query_params.get('from')
+        to_date = request.query_params.get('to')
+        transactions = self.queryset.filter(user=request.user)
+        if categories :
+            transactions = transactions.filter(category__in=categories)
+        if tr_type : 
+            transactions = transactions.filter(tr_type=tr_type)
+        if from_date :
+            transactions = transactions.filter(date__gte=from_date)
+        if to_date : 
+            transactions = transactions.filter(date__lte=to_date)
         pagination = self.pagination_class()
         pagination.page_size = self.page_size
-        page = pagination.paginate_queryset(queryset=transactions, request=request)
+        page = pagination.paginate_queryset(queryset=transactions.order_by('-date'), request=request)
         serializer = self.get_serializer(page, many=True)
         return pagination.get_paginated_response(serializer.data)
     

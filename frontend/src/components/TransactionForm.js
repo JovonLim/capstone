@@ -9,7 +9,6 @@ function TransactionForm({toggleForm, token, transaction, setEditTransaction}) {
   const [category, setCategory] = useState('newCategory');
   const [newCategory, setNewCategory] = useState('');
   const [date, setDate] = useState('');
-  const [error, setError] = useState('');
   const [categories, setCategories] = useState([]);
  
 
@@ -74,8 +73,7 @@ function TransactionForm({toggleForm, token, transaction, setEditTransaction}) {
       .then(response=> {
         setEditTransaction({});
         toggleForm();
-      })
-      .catch(error => setError(error.response.data.amt));
+      });
 
     } else {
       const submittedCategory = category === 'newCategory' ? newCategory : category;
@@ -92,7 +90,6 @@ function TransactionForm({toggleForm, token, transaction, setEditTransaction}) {
         setEditTransaction({});
         toggleForm();
       })
-      .catch(error => setError(error.response.data.amt));
     }
   };
 
@@ -106,13 +103,12 @@ function TransactionForm({toggleForm, token, transaction, setEditTransaction}) {
   };
 
   return (
-    <div className='center transaction'>
+    <div className='center transaction-form'>
       {transaction.id ? <h3>Edit Transaction</h3> : <h3>Add new Transaction</h3>}
-      {error && <p className="alert alert-danger">{error}</p>}
       <form onSubmit={handleSubmit}>
         <div className="form-group mb-3">
           <label> Amount:</label>
-          <input className="form-control" type="number" step="0.01" required 
+          <input className="form-control" type="number" step="0.01" min={0.01} required 
             value={amt}
             onChange={(e) => setAmt(e.target.value)}
           />
@@ -150,7 +146,7 @@ function TransactionForm({toggleForm, token, transaction, setEditTransaction}) {
         {category === 'newCategory' && (
           <div className="form-group mb-3">
             <label>New Category:</label>
-            <input className="form-control" type="text" required
+            <input className="form-control" type="text" maxLength={30} required
               value={newCategory}
               onChange={(e) => setNewCategory(e.target.value)}
             />
@@ -159,13 +155,13 @@ function TransactionForm({toggleForm, token, transaction, setEditTransaction}) {
 
         <div className="form-group mb-3">
           <label>Date:</label>
-          <input className="form-control" type="date" 
+          <input className="form-control" type="date" required
             value={date} 
             onChange={(e) => setDate(e.target.value)} 
           />
         </div>
 
-        <div className='form-buttons'>
+        <div className='transaction-form-btns'>
           <button type="submit" className='btn btn-primary'>Submit</button>
           <button className='btn btn-danger' type="button" onClick={() => {setEditTransaction({}); toggleForm();}}>Cancel</button>
         </div>
