@@ -32,7 +32,8 @@ function TransactionsPage() {
       }
     }).then(response => {
       setTotalPages(Math.ceil(response.data.count / 5));
-      setTransactions(response.data.results);});
+      setTransactions(response.data.results);
+    });
   }
 
   const deleteExpense = (id) => {

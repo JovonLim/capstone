@@ -6,9 +6,9 @@ class Home extends Component {
     const token = localStorage.getItem('token');
     
     if (token !== null) {
-      const user = localStorage.getItem('user');
+      const user = JSON.parse(localStorage.getItem('user'));  
       return <div class="front">
-        <h1>Welcome {user}!</h1>
+        <h1>Welcome {user.username}!</h1>
         <h2>Click on all transactions to check your transactions!</h2>
       </div>
     } else {

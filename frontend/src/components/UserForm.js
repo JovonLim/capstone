@@ -23,17 +23,17 @@ function UserForm({ navigate, isLogin, title }) {
     })
     .then((response) => {
       if (isLogin) {
+        console.log(response);
         const receivedToken = response.data['token'];
         const user = response.data['user'];
         localStorage.setItem('token', receivedToken);
-        localStorage.setItem('user', user);
+        localStorage.setItem('user', JSON.stringify(user));
         navigate('/');
       } else {
         navigate('/login');
       }
     })
     .catch((error) => {
-      console.log(error);
       const data = error.response.data;
       if (data.username) {
         setError(data.username);
