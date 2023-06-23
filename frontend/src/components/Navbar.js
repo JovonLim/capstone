@@ -8,14 +8,13 @@ function Navbar() {
   
   let links;
   if (token !== null) {
-    const user = JSON.parse(localStorage.getItem('user'));
     links = 
     <>
     <li class="nav-item">
       <NavLink to="/expenses" className="nav-link" style={{fontFamily: 'cursive'}}>All Transactions</NavLink>
     </li>
     <li class="nav-item">
-      <NavLink to="/profile" className="nav-link" style={{fontFamily: 'cursive'}}>{user.username}</NavLink>
+      <NavLink to="/profile" className="nav-link" style={{fontFamily: 'cursive'}}>Profile</NavLink>
     </li>
     <li class="nav-item">
       < LogoutButton />

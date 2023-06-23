@@ -61,7 +61,7 @@ function FilterOptions({filteredDetails, setFilteredDetails, toggleOption, token
   };
 
   return (
-    <div className='center transaction'>
+    <div className='center transaction-form'>
       <h3>Filter</h3>
       {error && <p className="alert alert-danger">To Date must be after From Date!</p>}
       <form onSubmit={handleSubmit}>
@@ -105,7 +105,7 @@ function FilterOptions({filteredDetails, setFilteredDetails, toggleOption, token
             />
           </div>
 
-        <div className='form-buttons'>
+        <div className='transaction-form-btns'>
           <button type="submit" className='btn btn-primary'>Filter</button>
           <button className='btn btn-danger' type="button" onClick={toggleOption}>Cancel</button>
         </div>

@@ -20,3 +20,8 @@ class Transaction(models.Model):
 
     def __str__(self):
         return f"{self.user}'s {self.tr_type} : {self.amt} on {self.category}"
+    
+class Budget(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    budget = models.DecimalField(max_digits=12, decimal_places=2, validators=[MinValueValidator(Decimal('0.01'))])
+    date = models.DateField(auto_now_add=True)

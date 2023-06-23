@@ -79,8 +79,9 @@ h3 {
   min-width: fit-content;
 }
 
-.transaction-btns {
+.form-buttons {
   display: flex;
+  justify-content: center;
   align-items: center;
 }
 
