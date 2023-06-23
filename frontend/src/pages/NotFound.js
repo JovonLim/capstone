@@ -1,5 +1,4 @@
 import React from 'react';
-import "../style/page.css";
 
 function NotFoundPage() {
   return (

@@ -1,6 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./style/form.css";
+import "./style/page.css";
+import "./style/transactions.css";
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

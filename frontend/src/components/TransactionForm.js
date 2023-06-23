@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'
-import "bootstrap/dist/css/bootstrap.min.css";
 import Cookies from 'js-cookie';
 
 function TransactionForm({toggleForm, token, transaction, setEditTransaction}) {
@@ -144,7 +143,7 @@ function TransactionForm({toggleForm, token, transaction, setEditTransaction}) {
             onChange={handleCategoryChange}>
             <option value="newCategory">Define New Category</option>
             {categories.map((category) => (
-            <option value={category}>{category}</option>))}
+            <option value={category} key={category}>{category}</option>))}
           </select>
         </div>
 

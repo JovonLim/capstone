@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import "../style/transactions.css"
-import "bootstrap/dist/css/bootstrap.min.css";
 import TransactionForm from '../components/TransactionForm';
+import FilterOptions from '../components/FilterOptions';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
 function TransactionsPage() {
   const [showform, setShowForm] = useState(false);
+  const [showOption, setShowOption] = useState(false);
   const [transactions, setTransactions] = useState([]);
   const [editTransaction, setEditTransaction] = useState({});
   const [page, setPage] = useState(1);
@@ -15,6 +15,10 @@ function TransactionsPage() {
 
   const toggleForm = () => {
     setShowForm(!showform);
+  }
+
+  const toggleOption = () => {
+    setShowOption(!showOption);
   }
 
   useEffect(() => {
@@ -56,11 +60,11 @@ function TransactionsPage() {
       <div className="container">
       <h1 className="title text-center">All Transactions</h1>
       <div className="buttons">
-        <button className="btn btn-secondary"><span className="button-text">Filter</span></button>
+        <button className="btn btn-secondary" onClick={toggleOption}><span className="button-text">Filter</span></button>
         <button className="btn btn-primary" onClick={toggleForm}><span className="button-text">Add Transaction</span></button>
       </div>
       {showform && <TransactionForm toggleForm={toggleForm} token={token} transaction={editTransaction} setEditTransaction={setEditTransaction} />}
-
+      {showOption && <FilterOptions toggleOption={toggleOption} token={token} />}
       {transactions.map((transaction) => (
         <div key={transaction.id} className="card expense">
           <div className="card-header headings">

@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import "../style/form.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 import axios from 'axios';
 import Cookies from 'js-cookie';
 

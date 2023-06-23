@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import "bootstrap/dist/css/bootstrap.min.css";
 
 const LogoutButton = () => {
   const navigate = useNavigate();

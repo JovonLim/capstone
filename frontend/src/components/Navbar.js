@@ -1,7 +1,6 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import LogoutButton from './LogoutBtn';
-import "bootstrap/dist/css/bootstrap.min.css";
 
 function Navbar() {
   const location = useLocation();
