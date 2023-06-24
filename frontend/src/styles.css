@@ -85,6 +85,11 @@ h3 {
   align-items: center;
 }
 
+.transaction-btns {
+  display: flex;
+  align-items: center;
+}
+
 .transaction-form-btns {
   display: flex;
   justify-content: space-evenly;
@@ -95,3 +100,10 @@ h3 {
   justify-content: space-between;
 }
 
+button:disabled {
+  border: none;
+}
+
+.profile-form {
+  padding: 20px;
+}

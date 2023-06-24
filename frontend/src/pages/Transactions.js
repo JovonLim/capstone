@@ -17,14 +17,17 @@ function TransactionsPage() {
   const [editTransaction, setEditTransaction] = useState({});
   const [page, setPage] = useState(1);
   const [totalpages, setTotalPages] = useState(1);
+  const [disabled, setDisabled] = useState(false);
   const token = localStorage.getItem('token');
 
   const toggleForm = () => {
     setShowForm(!showform);
+    setDisabled(!disabled);
   }
 
   const toggleOption = () => {
     setShowOption(!showOption);
+    setDisabled(!disabled);
   }
 
   useEffect(() => {
@@ -54,7 +57,7 @@ function TransactionsPage() {
       if (transactions.length === 1 && page > 1) {
         setPage(page - 1);
       } else {
-        fetchExpenses();
+        fetchExpenses(filteredDetails);
       }
     });
   }
@@ -68,8 +71,8 @@ function TransactionsPage() {
     <div className="container">
       <h1 className="title text-center">All Transactions</h1>
       <div className="transaction-page-btns">
-        <button className="btn btn-secondary" onClick={toggleOption}><span className="button-text">Filter</span></button>
-        <button className="btn btn-primary" onClick={toggleForm}><span className="button-text">Add Transaction</span></button>
+        <button className="btn btn-secondary" onClick={toggleOption} disabled={disabled}><span className="button-text">Filter</span></button>
+        <button className="btn btn-primary" onClick={toggleForm} disabled={disabled}><span className="button-text">Add Transaction</span></button>
       </div>
       {showform && <TransactionForm toggleForm={toggleForm} token={token} transaction={editTransaction} setEditTransaction={setEditTransaction} />}
       {showOption && <FilterOptions filteredDetails={filteredDetails} setFilteredDetails={setFilteredDetails}
@@ -79,7 +82,8 @@ function TransactionsPage() {
           <div className="card-header headings">
             <span>{transaction.date}</span>
             <div className='transaction-btns'>
-              <button type="button" className="btn btn-transparent shadow-none" onClick={() => editExpense(transaction)}><span className="button-text">Edit</span></button>
+              <button type="button" className="btn btn-transparent shadow-none" onClick={() => editExpense(transaction)} disabled={disabled}>
+                <span className="button-text">Edit</span></button>
               <button type="button" className="btn-close shadow-none" onClick={() => deleteExpense(transaction.id)}></button>
             </div>
           </div>

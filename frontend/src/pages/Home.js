@@ -7,7 +7,7 @@ class Home extends Component {
     
     if (token !== null) {
       const user = JSON.parse(localStorage.getItem('user'));  
-      return <div class="front">
+      return <div class="front title">
         <h1>Welcome Back {user.username}!</h1>
         <h2>Click on all transactions to check your transactions!</h2>
       </div>

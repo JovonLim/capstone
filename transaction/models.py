@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.core.validators import MinValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator
 from decimal import Decimal
 
 
@@ -24,4 +24,12 @@ class Transaction(models.Model):
 class Budget(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     budget = models.DecimalField(max_digits=12, decimal_places=2, validators=[MinValueValidator(Decimal('0.01'))])
-    date = models.DateField(auto_now_add=True)
+    month = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(12)])
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'month'], name='unique_budget_per_user_month')
+        ]
+
+    def __str__(self):
+        return f"{self.user} assigned {self.budget} in month {self.month}"
