@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import Budget from "../components/Budget";
 import Cookies from 'js-cookie';
+import Statistics from "../components/Statistics";
 
 function ProfilePage() {
   const user = JSON.parse(localStorage.getItem('user'));
@@ -85,61 +86,68 @@ function ProfilePage() {
 
   return (
     <div className="container-fluid">
-    <div className="row">
-      <div className="col mt-5">
-       <Budget token={token} />
-      </div>
-      <div className="col-md-8 offset-1 title">
-        <div className="row mt-5 mb-5">
-          <div className="bg-primary col-2 offset-1 title text-center rounded">
-            <h4>Transactions Made:</h4>
-            <h4>{count.transaction}</h4>
-          </div>
-          <div className="bg-danger col-2 offset-1 title text-center rounded">
-            <h4>Expense Entries:</h4>
-            <h4>{count.expense}</h4>
-          </div>
-          <div className="bg-success col-2 offset-1 title text-center rounded">
-            <h4>Income Entries:</h4>
-            <h4>{count.income}</h4>
-          </div>
+      <div className="row">
+        <div className="col mt-5">
+        <Budget token={token} />
         </div>
-        <div className="row">
-          <div className="col">
-            <h1>{user.username}</h1>
-            <h2>Date Joined: {date}</h2>
-            <h2>Current Balance: {remainder}</h2>
+        <div className="col-md-8 offset-1 title">
+          <div className="row mt-5 mb-5">
+            <div className="bg-primary col-2 offset-1 title text-center rounded">
+              <h4>Transactions Made:</h4>
+              <h4>{count.transaction}</h4>
+            </div>
+            <div className="bg-danger col-2 offset-1 title text-center rounded">
+              <h4>Expense Entries:</h4>
+              <h4>{count.expense}</h4>
+            </div>
+            <div className="bg-success col-2 offset-1 title text-center rounded">
+              <h4>Income Entries:</h4>
+              <h4>{count.income}</h4>
+            </div>
           </div>
-          <div className="col text-end">
-            <button className="btn btn-danger" onClick={toggleForm}><span className="button-text">Change Password</span></button>
-            {success && <p className="alert alert-primary text-center mt-3">Password successfully changed!</p>}
-            {showForm && (
-              <div className="card profile-form mt-3">
-                {error && <p className="alert alert-danger text-center">{error}</p>}
-                <form onSubmit={handleSubmit}>
+          <div className="row">
+            <div className="col">
+              <h1>{user.username}</h1>
+              <h2>Date Joined: {date}</h2>
+              <h2>Current Balance: {remainder}</h2>
+            </div>
+            <div className="col text-end">
+              <button className="btn btn-danger" onClick={toggleForm}><span className="button-text">Change Password</span></button>
+              {success && <p className="alert alert-primary text-center mt-3">Password successfully changed!</p>}
+              {showForm && (
+                <div className="card profile-form mt-3">
+                  {error && <p className="alert alert-danger text-center">{error}</p>}
+                  <form onSubmit={handleSubmit}>
+                    <div className="form-group mb-3">
+                      <label>New Password</label>
+                      <input className="form-control" type="password" required
+                        value={password}
+                        onChange={e => setPassword(e.target.value)}
+                      />
+                    </div>
                   <div className="form-group mb-3">
-                    <label>New Password</label>
+                    <label>Confirm Password</label>
                     <input className="form-control" type="password" required
-                      value={password}
-                      onChange={e => setPassword(e.target.value)}
+                      value={confirmPassword}
+                      onChange={e => setConfirmPassword(e.target.value)}
                     />
                   </div>
-                <div className="form-group mb-3">
-                  <label>Confirm Password</label>
-                  <input className="form-control" type="password" required
-                    value={confirmPassword}
-                    onChange={e => setConfirmPassword(e.target.value)}
-                  />
-                </div>
-                <button className="btn btn-primary"><span className="button-text">Submit</span></button>
-              </form>
+                  <button className="btn btn-primary"><span className="button-text">Submit</span></button>
+                </form>
+              </div>
+              )}
             </div>
-            )}
-          </div>
-        </div>  
+          </div>  
+        </div>
+      </div>
+    <hr class="hr" />
+    <h1 className="text-center">Statistics</h1>
+    <div className="row">
+      <div className="col-md-4">
+        < Statistics token={token} />
       </div>
     </div>
-    <hr class="hr" />
+    
   </div>
   );
 }

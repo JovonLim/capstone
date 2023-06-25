@@ -8,7 +8,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.contrib.auth import authenticate, login, logout
 from .models import User, Transaction, Budget
-from django.db.models import Q
+from django.db.models import Q, Sum
 
 # Create your views here.
 class UserViewSet(viewsets.ModelViewSet):
@@ -131,11 +131,8 @@ class TransactionViewSet(viewsets.ModelViewSet):
     
     @action(detail=False)
     def get_budget_spent(self, request):
-        transactions = self.queryset.filter(user=request.user, date__month=date.today().month, date__year=date.today().year)
-        spent = 0
-        for transaction in transactions :
-            if transaction.tr_type == "Expense" :
-                spent -= transaction.amt
+        transactions = self.queryset.filter(user=request.user, tr_type="Expense", date__month=date.today().month, date__year=date.today().year)
+        spent = transactions.aggregate(Sum('amt'))['amt__sum'] or 0
         return Response({"message": "retrieved budget spent successfully",
                          "spent": spent}, status=200)
     
@@ -143,13 +140,21 @@ class TransactionViewSet(viewsets.ModelViewSet):
     def get_total(self, request):
         transactions = self.queryset.filter(user=request.user, date__gte=request.user.date_joined.date())
         total = 0
-        for transaction in transactions :
-            if transaction.tr_type == "Expense" :
-                total -= transaction.amt
-            else :
-                total += transaction.amt
+        total -= transactions.filter(tr_type="Expense").aggregate(Sum('amt'))['amt__sum'] or 0
+        total += transactions.filter(tr_type="Income").aggregate(Sum('amt'))['amt__sum'] or 0
         return Response({"message": "retrieved total successfully",
                          "total": total}, status=200)
+    
+    @action(detail=False)
+    def get_expense_amounts(self, request):
+        expenses = self.queryset.filter(user=request.user, tr_type="Expense")
+        categories = list(expenses.values_list('category', flat=True).distinct())
+        expense_amounts = []
+        for category in categories:
+            total_amount = expenses.filter(category=category).aggregate(Sum('amt'))['amt__sum']
+            expense_amounts.append({'category': category, 'total_amount': total_amount})
+        return Response(expense_amounts, status=200)
+
 
     
 class BudgetViewSet(viewsets.ModelViewSet):

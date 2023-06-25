@@ -29,7 +29,7 @@ function Budget({token}) {
         }
       }).then(response => {
         const { spent } = response.data;
-        setRemainingBudget(parseFloat(data.budget) + spent);
+        setRemainingBudget(parseFloat(data.budget) - spent);
       })
     }
 
