@@ -162,42 +162,42 @@ function Statistics({token}) {
   return (
     <div className="row">
       <div className="col-md-4">
-        <div className="chart-container" style={{ height: '50vh' }}>
-            <h2 className='text-center'>Expenses' Categories Distribution</h2>
-            <div className='text-end'>
-              <select value={categoryDistribution} onChange={handleCategoryDistributionChange}>
-                <option value="All">All</option>
-                <option value="CurrentMonth">Current Month</option>
-                <option value="CurrentYear">Current Year</option>
-              </select>
-            </div>         
+        <h2 className='text-center'>Expenses' Categories Distribution</h2>
+              <div className='text-end'>
+                <select value={categoryDistribution} onChange={handleCategoryDistributionChange}>
+                  <option value="All">All</option>
+                  <option value="CurrentMonth">Current Month</option>
+                  <option value="CurrentYear">Current Year</option>
+                </select>
+              </div> 
+        <div className="chart-container" style={{ height: '40vh'}}>    
           {!loadingPie && <Pie data={pieChart} options={pieOptions}/>}
         </div>
       </div>
       <div className="col-md-4">
-        <div className="chart-container" style={{ height: '50vh' }}>
-            <h2 className='text-center'>Expenses' Distribution</h2>
-            <div className='text-end'>
-              <select value={expenseDistribution} onChange={handleExpenseDistributionChange}>
-              <option value="3">Past 3 Months</option>
-                <option value="6">Past 6 Months</option>
-                <option value="12">Past Year</option>
-              </select>
-            </div>         
+        <h2 className='text-center'>Expenses' Distribution</h2>
+        <div className='text-end'>
+          <select value={expenseDistribution} onChange={handleExpenseDistributionChange}>
+            <option value="3">Past 3 Months</option>
+            <option value="6">Past 6 Months</option>
+            <option value="12">Past Year</option>
+          </select>
+        </div>         
+        <div className="chart-container" style={{ height: '40vh'}}> 
           {!loadingLineE && <Line data={lineChartE} options={lineOptions}/>}
         </div>
        </div>
        <div className="col-md-4">
-        <div className="chart-container" style={{ height: '50vh' }}>
-            <h2 className='text-center'>Incomes' Distribution</h2>
-            <div className='text-end'>
-              <select value={incomeDistribution} onChange={handleIncomeDistributionChange}>
-                <option value="3">Past 3 Months</option>
-                <option value="6">Past 6 Months</option>
-                <option value="12">Past Year</option>
-              </select>
-            </div>         
-            {!loadingLineI && <Line data={lineChartI} options={lineOptions}/>}
+        <h2 className='text-center'>Incomes' Distribution</h2>
+        <div className='text-end'>
+          <select value={incomeDistribution} onChange={handleIncomeDistributionChange}>
+            <option value="3">Past 3 Months</option>
+            <option value="6">Past 6 Months</option>
+            <option value="12">Past Year</option>
+          </select>
+        </div>    
+        <div className="chart-container" style={{ height: '40vh'}}>  
+          {!loadingLineI && <Line data={lineChartI} options={lineOptions}/>}
         </div>
        </div>
     </div>

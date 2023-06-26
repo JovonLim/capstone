@@ -31,7 +31,7 @@ function Budget({token}) {
         }
       }).then(response => {
         const { spent } = response.data;
-        setRemainingBudget(parseFloat(data.budget) - spent);
+        setRemainingBudget((parseFloat(data.budget) - spent).toFixed(2));
       })
     }
 
@@ -83,16 +83,16 @@ function Budget({token}) {
 return (
   <div>
     <h1 className="text-center mb-3">Budget</h1>
-    <div class="card profile-form">
+    <div class="card bg-dark text-white profile-form">
       {!loading && (budget.id ? (<div className="text-center"><h3>Remaining Budget For This Month: </h3>
         <h3>{remainingBudget}</h3></div>) : 
       (<div className="text-center"><h3>You have not set a budget for this month!</h3>
         <h4>Click the set budget button to begin!</h4></div>))}
       
       <div className="form-buttons">
-        <button className="btn btn-secondary" type="button" onClick={toggleForm}>
-          {!loading && (budget.id ? (<span className="button-text">Edit Budget</span>) :  
-          (<span className="button-text">Set Budget</span>))}
+        <button className="btn btn-secondary button-text" type="button" onClick={toggleForm}>
+          {!loading && (budget.id ? (<span>Edit Budget</span>) :  
+          (<span>Set Budget</span>))}
         </button>
       </div>
       
@@ -106,7 +106,7 @@ return (
             />
           </div>
           <div className="text-center">
-            <button className="btn btn-primary" type="submit"><span className="button-text">Submit</span></button>
+            <button className="btn btn-primary button-text" type="submit">Submit</button>
           </div>
         </form>
       )}

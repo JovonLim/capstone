@@ -69,22 +69,22 @@ function TransactionsPage() {
 
   return (
     <div className="container">
-      <h1 className="text-center">All Transactions</h1>
+      <h1 className="text-center mt-3">All Transactions</h1>
       <div className="transaction-page-btns">
-        <button className="btn btn-secondary" onClick={toggleOption} disabled={disabled}><span className="button-text">Filter</span></button>
-        <button className="btn btn-primary" onClick={toggleForm} disabled={disabled}><span className="button-text">Add Transaction</span></button>
+        <button className="btn btn-secondary button-text" onClick={toggleOption} disabled={disabled}>Filter</button>
+        <button className="btn btn-primary button-text" onClick={toggleForm} disabled={disabled}>Add Transaction</button>
       </div>
       {showform && <TransactionForm toggleForm={toggleForm} token={token} transaction={editTransaction} setEditTransaction={setEditTransaction} />}
       {showOption && <FilterOptions filteredDetails={filteredDetails} setFilteredDetails={setFilteredDetails}
        toggleOption={toggleOption} token={token} setPage={setPage} />}
       {transactions.map((transaction) => (
         <div key={transaction.id} className="card transaction">
-          <div className="card-header headings">
+          <div className="card-header headings bg-dark text-white">
             <span>{transaction.date}</span>
             <div className='transaction-btns'>
               <button type="button" className="btn btn-transparent shadow-none" onClick={() => editExpense(transaction)} disabled={disabled}>
-                <span className="button-text">Edit</span></button>
-              <button type="button" className="btn-close shadow-none" onClick={() => deleteExpense(transaction.id)}></button>
+                <span className="button-text text-white">Edit</span></button>
+              <button type="button" className="btn-close-white btn-close shadow-none" onClick={() => deleteExpense(transaction.id)}></button>
             </div>
           </div>
           <div className="body">
@@ -99,11 +99,11 @@ function TransactionsPage() {
         </div>
        ))}
        <nav>
-      <ul className="pagination">
-      {page !== 1 && <button className="page-link" onClick={() => setPage(page - 1)}><span className="button-text">Previous</span></button>}
+      <div>
+      {page !== 1 && <button className="button-text btn btn-dark" onClick={() => setPage(page - 1)}>Previous</button>}
       {(totalpages > 1 && page !== totalpages) 
-        && <button className="page-link" onClick={() => setPage(page + 1)}><span className="button-text">Next</span></button>}
-      </ul>
+        && <button className="button-text btn btn-dark" onClick={() => setPage(page + 1)}>Next</button>}
+      </div>
     </nav>
   </div>
   );

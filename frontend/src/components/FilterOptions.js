@@ -78,17 +78,14 @@ function FilterOptions({filteredDetails, setFilteredDetails, toggleOption, token
 
         <div className="form-group mb-3">
           <label>Categories:</label>
-          <div className="row">
           {categories.map((category) => (
-            <div key={category} className="col-4">
+            <div key={category}>
               <input type="checkbox" value={category} style={{marginRight:'5px'}} 
                 checked={selectedCategories.includes(category)} onChange={(e) => toggleCategory(category, e)} />
               <label>{category}</label>
             </div>
           ))}
-          </div>
         </div>
-
         <div className="form-group mb-3">
           <label>From:</label>
           <input className="form-control" type="date" 

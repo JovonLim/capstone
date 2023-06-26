@@ -15,6 +15,13 @@ const ProtectedRoute = () => {
   return <Outlet />;
 };
 
+const AuthenticatedRoute = () => {
+  if (localStorage.getItem('token')) {
+    return <Navigate to="/" replace />;
+  }
+  return <Outlet />;
+};
+
 class App extends Component {
   render() {
     return (
@@ -23,8 +30,10 @@ class App extends Component {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
+          <Route element={<AuthenticatedRoute />}>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+          </Route>
           <Route element={<ProtectedRoute />}>
             <Route path="/expenses" element={<TransactionsPage />} />
             <Route path="/profile" element={<ProfilePage />} />

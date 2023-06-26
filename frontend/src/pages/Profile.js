@@ -9,9 +9,12 @@ function ProfilePage() {
   const token = localStorage.getItem('token');
   const date = new Date(user.date_joined).toDateString();
   const [count, setCount] = useState({
-    transaction: 0,
-    expense: 0,
-    income: 0
+    totalTransaction: 0,
+    totalExpense: 0,
+    totalIncome: 0,
+    currTransaction: 0,
+    currExpense: 0,
+    currIncome: 0
   });
   const [remainder, setRemainder] = useState(0);
   const [showForm, setShowForm] = useState(false);
@@ -27,8 +30,10 @@ function ProfilePage() {
           'Authorization': `Token ${token}`  
         }
       }).then(response => {
-        const { transaction, expense, income } = response.data;
-        setCount({ transaction, expense, income });
+        const { totalTransaction, totalExpense, totalIncome,
+          currTransaction, currExpense, currIncome } = response.data;
+        setCount({ totalTransaction, totalExpense, totalIncome,
+          currTransaction, currExpense, currIncome });
       }) 
     }
 
@@ -39,7 +44,7 @@ function ProfilePage() {
         }
       }).then(response => {
         const { total } = response.data;
-        setRemainder(parseFloat(user.starting_amt) + total);
+        setRemainder((parseFloat(user.starting_amt) + total).toFixed(2));
       }) 
     }
     fetchCount();
@@ -86,58 +91,60 @@ function ProfilePage() {
 
   return (
     <div className="container-fluid">
-      <div className="row">
-        <div className="col mt-5">
-        <Budget token={token} />
+      <div className="row mt-5">
+        <div className="col">
+          <Budget token={token} />
         </div>
-        <div className="col-md-8 offset-1">
-          <div className="row mt-5 mb-5">
-            <div className="bg-primary col-2 offset-1 text-center rounded">
-              <h4>Transactions Made:</h4>
-              <h4>{count.transaction}</h4>
-            </div>
-            <div className="bg-danger col-2 offset-1 text-center rounded">
-              <h4>Expense Entries:</h4>
-              <h4>{count.expense}</h4>
-            </div>
-            <div className="bg-success col-2 offset-1 text-center rounded">
-              <h4>Income Entries:</h4>
-              <h4>{count.income}</h4>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col">
+        <div className="col-md-8">
+          <div className="row m-3">
+            <div className="col-8">
               <h1>{user.username}</h1>
-              <h2>Date Joined: {date}</h2>
-              <h2>Current Balance: {remainder}</h2>
+              <h1>Date Joined: {date}</h1>
+              <h1>Current Balance: {remainder}</h1>
+              <h2>Transactions this month: {count.currTransaction} </h2>
+              <h2>Expenses this month: {count.currExpense} </h2>
+              <h2>Income this month: {count.currIncome} </h2>
             </div>
-            <div className="col text-end">
-              <button className="btn btn-danger" onClick={toggleForm}><span className="button-text">Change Password</span></button>
+            <div className="col-4 text-end">
+              <button className="btn btn-danger button-text" onClick={toggleForm}>Change Password</button>
               {success && <p className="alert alert-primary text-center mt-3">Password successfully changed!</p>}
               {showForm && (
-                <div className="card profile-form mt-3">
+                <div className="card profile-form bg-dark text-white mt-2">
                   {error && <p className="alert alert-danger text-center">{error}</p>}
                   <form onSubmit={handleSubmit}>
-                    <div className="form-group mb-3">
+                    <div className="form-group mb-2">
                       <label>New Password</label>
                       <input className="form-control" type="password" required
                         value={password}
                         onChange={e => setPassword(e.target.value)}
                       />
                     </div>
-                  <div className="form-group mb-3">
+                  <div className="form-group mb-2">
                     <label>Confirm Password</label>
                     <input className="form-control" type="password" required
                       value={confirmPassword}
                       onChange={e => setConfirmPassword(e.target.value)}
                     />
                   </div>
-                  <button className="btn btn-primary"><span className="button-text">Submit</span></button>
+                  <button className="btn btn-primary button-text">Submit</button>
                 </form>
-              </div>
-              )}
+              </div>)}
             </div>
           </div>  
+          <div className="row mt-5 mx-3 mb-3 text-center">
+            <div className="col bg-info">
+              <h4>Total Transactions:</h4>
+              <h4>{count.totalTransaction}</h4>
+            </div>
+            <div className="col bg-danger">
+              <h4>Total Expenses:</h4>
+              <h4>{count.totalExpense}</h4>
+            </div>
+            <div className="col bg-success">
+              <h4>Total Income:</h4>
+              <h4>{count.totalIncome}</h4>
+            </div>
+         </div>
         </div>
       </div>
     <hr class="hr" />

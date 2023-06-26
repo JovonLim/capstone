@@ -124,13 +124,20 @@ class TransactionViewSet(viewsets.ModelViewSet):
     @action(detail=False)
     def get_count(self, request):
         transactions = self.queryset.filter(user=request.user)
-        transaction_count = len(transactions)
-        expenses_count = len(transactions.filter(tr_type="Expense"))
-        income_count = len(transactions.filter(tr_type="Income"))
+        total_transaction_count = len(transactions)
+        total_expenses_count = len(transactions.filter(tr_type="Expense"))
+        total_income_count = len(transactions.filter(tr_type="Income"))
+        transactions = transactions.filter(date__month=date.today().month, date__year=date.today().year)
+        curr_transaction_count = len(transactions)
+        curr_expenses_count = len(transactions.filter(tr_type="Expense"))
+        curr_income_count = len(transactions.filter(tr_type="Income"))
         return Response({"message": "retrieved count successfully",
-                         "transaction": transaction_count,
-                         "expense": expenses_count, 
-                         "income": income_count}, status=200)
+                         "totalTransaction": total_transaction_count,
+                         "totalExpense": total_expenses_count, 
+                         "totalIncome": total_income_count,
+                         "currTransaction": curr_transaction_count,
+                         "currExpense": curr_expenses_count, 
+                         "currIncome": curr_income_count}, status=200)
     
     @action(detail=False)
     def get_budget_spent(self, request):
