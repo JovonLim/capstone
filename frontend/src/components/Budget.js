@@ -7,6 +7,7 @@ function Budget({token}) {
   const [budget, setBudget] = useState({});
   const [remainingBudget, setRemainingBudget] = useState(0);
   const [budgetValue, setBudgetValue] = useState('');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     function fetchBudget() {
@@ -16,6 +17,7 @@ function Budget({token}) {
         }
       }).then(response => {
         setBudget(response.data);
+        setLoading(false);
       });
     }
     fetchBudget();
@@ -80,17 +82,17 @@ function Budget({token}) {
 
 return (
   <div>
-    <h1 className="title text-center mb-3">Budget</h1>
+    <h1 className="text-center mb-3">Budget</h1>
     <div class="card profile-form">
-      {budget.id ? (<div className="text-center"><h3>Remaining Budget For This Month: </h3>
+      {!loading && (budget.id ? (<div className="text-center"><h3>Remaining Budget For This Month: </h3>
         <h3>{remainingBudget}</h3></div>) : 
       (<div className="text-center"><h3>You have not set a budget for this month!</h3>
-        <h4>Click the set budget button to begin!</h4></div>)}
+        <h4>Click the set budget button to begin!</h4></div>))}
       
       <div className="form-buttons">
         <button className="btn btn-secondary" type="button" onClick={toggleForm}>
-          { budget.id ? (<span className="button-text">Edit Budget</span>) :  
-          (<span className="button-text">Set Budget</span>)}
+          {!loading && (budget.id ? (<span className="button-text">Edit Budget</span>) :  
+          (<span className="button-text">Set Budget</span>))}
         </button>
       </div>
       

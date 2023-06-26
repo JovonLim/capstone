@@ -70,7 +70,7 @@ function UserForm({ navigate, isLogin, title }) {
     </>
   }
   return (
-    <div className="center user title">
+    <div className="center user">
       <h3>{title}</h3>
       {error && <p className="alert alert-danger">{error}</p>}
       <form onSubmit={handleSubmit}>

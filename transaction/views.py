@@ -9,6 +9,9 @@ from rest_framework.response import Response
 from django.contrib.auth import authenticate, login, logout
 from .models import User, Transaction, Budget
 from django.db.models import Q, Sum
+from django.db.models.functions import TruncMonth
+from dateutil.relativedelta import relativedelta
+
 
 # Create your views here.
 class UserViewSet(viewsets.ModelViewSet):
@@ -137,7 +140,7 @@ class TransactionViewSet(viewsets.ModelViewSet):
                          "spent": spent}, status=200)
     
     @action(detail=False)
-    def get_total(self, request):
+    def get_net_total(self, request):
         transactions = self.queryset.filter(user=request.user, date__gte=request.user.date_joined.date())
         total = 0
         total -= transactions.filter(tr_type="Expense").aggregate(Sum('amt'))['amt__sum'] or 0
@@ -146,14 +149,46 @@ class TransactionViewSet(viewsets.ModelViewSet):
                          "total": total}, status=200)
     
     @action(detail=False)
-    def get_expense_amounts(self, request):
+    def get_categories_distribution(self, request):
+        option = request.query_params.get('option')
         expenses = self.queryset.filter(user=request.user, tr_type="Expense")
+        
+        if option == "CurrentMonth" :
+            expenses = expenses.filter(date__month=date.today().month, date__year=date.today().year)
+        elif option == "CurrentYear" :
+            expenses = expenses.filter(date__year=date.today().year)
+
         categories = list(expenses.values_list('category', flat=True).distinct())
         expense_amounts = []
         for category in categories:
             total_amount = expenses.filter(category=category).aggregate(Sum('amt'))['amt__sum']
-            expense_amounts.append({'category': category, 'total_amount': total_amount})
-        return Response(expense_amounts, status=200)
+            expense_amounts.append(total_amount)
+        return Response({"categories": categories, 
+                         "expenses" : expense_amounts}, status=200)
+    
+    @action(detail=False)
+    def get_transactions_distribution(self, request):
+        tr_type = request.query_params.get('tr_type')
+        months = int(request.query_params.get('months'))
+
+        current_month = date.today().replace(day=1)
+
+        start_date = current_month - relativedelta(months=months - 1)
+
+        transactions = self.queryset.filter(user=request.user, tr_type=tr_type, date__gte=start_date)
+        transactions = transactions.annotate(month=TruncMonth('date')).values('month').annotate(total=Sum('amt'))
+
+        labels = []
+        amounts = []
+     
+        for i in range(months):
+            month = current_month - relativedelta(months=months - 1 - i)
+            amount =  transactions.get(month=month)['total'] if transactions.filter(month=month).exists() else 0
+            labels.append(month.strftime('%B'))
+            amounts.append(amount)
+        
+        return Response({"months": labels, "amounts": amounts}, status=200)
+
 
 
     

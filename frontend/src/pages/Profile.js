@@ -33,7 +33,7 @@ function ProfilePage() {
     }
 
     function fetchTotal() {
-      axios.get("http://127.0.0.1:8000/api/transactions/get_total/", {
+      axios.get("http://127.0.0.1:8000/api/transactions/get_net_total/", {
         headers: {
           'Authorization': `Token ${token}`  
         }
@@ -90,17 +90,17 @@ function ProfilePage() {
         <div className="col mt-5">
         <Budget token={token} />
         </div>
-        <div className="col-md-8 offset-1 title">
+        <div className="col-md-8 offset-1">
           <div className="row mt-5 mb-5">
-            <div className="bg-primary col-2 offset-1 title text-center rounded">
+            <div className="bg-primary col-2 offset-1 text-center rounded">
               <h4>Transactions Made:</h4>
               <h4>{count.transaction}</h4>
             </div>
-            <div className="bg-danger col-2 offset-1 title text-center rounded">
+            <div className="bg-danger col-2 offset-1 text-center rounded">
               <h4>Expense Entries:</h4>
               <h4>{count.expense}</h4>
             </div>
-            <div className="bg-success col-2 offset-1 title text-center rounded">
+            <div className="bg-success col-2 offset-1 text-center rounded">
               <h4>Income Entries:</h4>
               <h4>{count.income}</h4>
             </div>
@@ -142,12 +142,7 @@ function ProfilePage() {
       </div>
     <hr class="hr" />
     <h1 className="text-center">Statistics</h1>
-    <div className="row">
-      <div className="col-md-4">
-        < Statistics token={token} />
-      </div>
-    </div>
-    
+    < Statistics token={token} />
   </div>
   );
 }

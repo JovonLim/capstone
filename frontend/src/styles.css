@@ -1,3 +1,7 @@
+body {
+  color: white;
+}
+
 .bg {
   background-color: #1F2937;
   min-height: 100vh;
@@ -38,10 +42,6 @@ h3 {
   text-align: center;
 }
 
-.title {
-  color: white;
-}
-
 .headings {
   display: flex;
   justify-content: space-between;
@@ -68,7 +68,6 @@ h3 {
 }
 
 .transaction-form {
-  color:white;
   position: absolute;
   left: 0;
   right: 0;
