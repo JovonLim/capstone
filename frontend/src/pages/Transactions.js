@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import TransactionForm from '../components/TransactionForm';
 import FilterOptions from '../components/FilterOptions';
 import axios from 'axios';
@@ -18,7 +18,57 @@ function TransactionsPage() {
   const [page, setPage] = useState(1);
   const [totalpages, setTotalPages] = useState(1);
   const [disabled, setDisabled] = useState(false);
+  const [notice, setNotice] = useState('');
   const token = localStorage.getItem('token');
+  const fileInput = useRef(null);
+
+  const openFile = () => {
+    fileInput.current.click();
+  };
+
+  const submitFile = (event) => {
+    const file = event.target.files[0];
+    if (file.type !== 'text/csv') {
+      setNotice('File is not a CSV');
+      displayMsg();
+      return;
+    }
+    const formData = new FormData();
+    formData.append('csv_file', file);
+    axios.post('http://127.0.0.1:8000/api/transactions/', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'X-CSRFToken': Cookies.get('csrftoken'),
+        'Authorization': `Token ${token}`
+      }
+    })
+    .then(response => {
+      setNotice(response.data.message);
+      displayMsg();
+
+      const timer = setTimeout(() => {
+        fetchExpenses(filteredDetails);
+      }, 3500);
+
+      return () => {
+        clearTimeout(timer);
+      }
+    })
+    .catch(error => {       
+      setNotice(error.response.data.error);
+      displayMsg();
+    });
+  };
+
+  const displayMsg = () => {
+    const timer = setTimeout(() => {
+      setNotice('');
+    }, 3000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  };
 
   const toggleForm = () => {
     setShowForm(!showform);
@@ -74,6 +124,11 @@ function TransactionsPage() {
         <button className="btn btn-secondary button-text" onClick={toggleOption} disabled={disabled}>Filter</button>
         <button className="btn btn-primary button-text" onClick={toggleForm} disabled={disabled}>Add Transaction</button>
       </div>
+      <div className='text-end mt-3'>
+        <button className="btn btn-primary button-text" onClick={openFile} disabled={disabled}>Upload CSV</button>
+        <input type="file" ref={fileInput} style={{ display: 'none' }} onChange={submitFile} />
+      </div>
+      {notice && <div className={"alert alert-primary mt-2 text-center"}>{notice}</div>}
       {showform && <TransactionForm toggleForm={toggleForm} token={token} transaction={editTransaction} setEditTransaction={setEditTransaction} />}
       {showOption && <FilterOptions filteredDetails={filteredDetails} setFilteredDetails={setFilteredDetails}
        toggleOption={toggleOption} token={token} setPage={setPage} />}

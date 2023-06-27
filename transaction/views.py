@@ -1,4 +1,5 @@
-from datetime import date
+import csv
+from datetime import date, datetime
 from rest_framework import viewsets, permissions
 from .serializers import UserSerializer, TransactionSerializer, BudgetSerializer
 from rest_framework.pagination import PageNumberPagination
@@ -11,6 +12,7 @@ from .models import User, Transaction, Budget
 from django.db.models import Q, Sum
 from django.db.models.functions import TruncMonth
 from dateutil.relativedelta import relativedelta
+from rest_framework.parsers import MultiPartParser, FormParser
 
 
 # Create your views here.
@@ -66,12 +68,29 @@ class TransactionViewSet(viewsets.ModelViewSet):
     page_size = 5
     
     def create(self, request):
-        request.data['user'] = request.user.id
-        serializer = self.get_serializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=201)
-        return Response(serializer.errors, status=400)
+        csv_file = request.FILES.get('csv_file')
+        if csv_file :
+            self.parser_classes = [MultiPartParser, FormParser]
+            csv_data = csv_file.read().decode('utf-8-sig')
+            csv_reader = csv.DictReader(csv_data.splitlines())
+            for row in csv_reader:
+                row['user'] = request.user.id 
+                date = datetime.strptime(row['date'], "%d/%m/%Y")
+                row['date'] = date.strftime("%Y-%m-%d")
+                serializer = self.get_serializer(data=row)
+                if serializer.is_valid():
+                    serializer.save()
+                else :
+                    return Response({"error": "Some Data Uploaded is Invalid"}, status=400)
+            return Response({"message": "Data Uploading"}, status=201)
+        else :
+            request.data['user'] = request.user.id
+            print(request.data)
+            serializer = self.get_serializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=201)
+            return Response(serializer.errors, status=400)
     
     def list(self, request):
         tr_type = request.query_params.get('tr_type')
@@ -197,8 +216,6 @@ class TransactionViewSet(viewsets.ModelViewSet):
         return Response({"months": labels, "amounts": amounts}, status=200)
 
 
-
-    
 class BudgetViewSet(viewsets.ModelViewSet):
     queryset = Budget.objects.all()
     serializer_class = BudgetSerializer

@@ -100,3 +100,34 @@ h3 {
 .profile-form {
   padding: 20px;
 }
+
+.h1-fade-in  {
+  font-size: 80px;
+  opacity: 0;
+  animation: fade-in 1.5s ease-in-out forwards;
+}
+
+.h2-fade-in {
+  font-size: 64px;
+  opacity: 0;
+  animation: fade-in 1.5s ease-in-out forwards;
+  animation-delay: 1s; 
+}
+
+@media (max-width: 768px) {
+  .h1-fade-in {
+    font-size: 40px;
+  }
+  .h2-fade-in {
+    font-size: 28px;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
