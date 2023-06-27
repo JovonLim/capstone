@@ -97,6 +97,11 @@ h3 {
   justify-content: space-between;
 }
 
+.pagination {
+  display: flex;
+  flex-direction: column;
+}
+
 .profile-form {
   padding: 20px;
 }
@@ -128,6 +133,46 @@ h3 {
 .success-animate {
   opacity: 0;
   animation: fade-in-out-pw 3.5s ease forwards;
+}
+
+.balance, .budget {
+  opacity: 0;
+  animation: fade-in 1s ease-in-out forwards;
+}
+
+.currTransaction {
+  opacity: 0;
+  animation: fade-in 1s ease-in-out forwards;
+  animation-delay: 0.5s; 
+}
+
+.currExpense {
+  opacity: 0;
+  animation: fade-in 1s ease-in-out forwards;
+  animation-delay: 1s; 
+}
+
+.currIncome {
+  opacity: 0;
+  animation: fade-in 1s ease-in-out forwards;
+  animation-delay: 1.5s; 
+}
+
+.total {
+  opacity: 0;
+  animation: fade-in 1s ease-in-out forwards;
+  animation-delay: 2s; 
+}
+
+.statistics {
+  opacity: 0;
+  animation: fade-in 1.5s ease-in-out forwards;
+  animation-delay: 2.5s; 
+}
+
+.exceed {
+  opacity: 0;
+  animation: fade-in 1s ease-in-out forwards;
 }
 
 @media (max-width: 768px) {

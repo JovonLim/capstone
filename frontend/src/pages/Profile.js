@@ -100,10 +100,10 @@ function ProfilePage() {
             <div className="col-8">
               <h1>{user.username}</h1>
               <h1>Date Joined: {date}</h1>
-              <h1>Current Balance: {remainder}</h1>
-              <h2>Transactions this month: {count.currTransaction} </h2>
-              <h2>Expenses this month: {count.currExpense} </h2>
-              <h2>Income this month: {count.currIncome} </h2>
+              <h1 className="balance">Current Balance: {remainder}</h1>
+              <h2 className="currTransaction">Transactions this month: {count.currTransaction} </h2>
+              <h2 className="currExpense">Expenses this month: {count.currExpense} </h2>
+              <h2 className="currIncome">Income this month: {count.currIncome} </h2>
             </div>
             <div className="col-4 text-end">
               <button className="btn btn-danger button-text" onClick={toggleForm}>Change Password</button>
@@ -131,7 +131,7 @@ function ProfilePage() {
               </div>)}
             </div>
           </div>  
-          <div className="row mt-5 mx-3 mb-3 text-center">
+          <div className="row mt-5 mx-3 mb-3 text-center total">
             <div className="col bg-info">
               <h4>Total Transactions:</h4>
               <h4>{count.totalTransaction}</h4>
@@ -148,7 +148,7 @@ function ProfilePage() {
         </div>
       </div>
     <hr class="hr" />
-    <h1 className="text-center">Statistics</h1>
+    <h1 className="text-center statistics">Statistics</h1>
     < Statistics token={token} />
   </div>
   );

@@ -160,7 +160,7 @@ function Statistics({token}) {
   };
 
   return (
-    <div className="row">
+    <div className="row statistics">
       <div className="col-md-4">
         <h2 className='text-center'>Expenses' Categories Distribution</h2>
               <div className='text-end'>

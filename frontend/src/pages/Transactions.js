@@ -19,6 +19,7 @@ function TransactionsPage() {
   const [totalpages, setTotalPages] = useState(1);
   const [disabled, setDisabled] = useState(false);
   const [notice, setNotice] = useState('');
+  const [entries, setEntries] = useState(5);
   const token = localStorage.getItem('token');
   const fileInput = useRef(null);
 
@@ -82,9 +83,10 @@ function TransactionsPage() {
 
   useEffect(() => {
     fetchExpenses(filteredDetails);
-  }, [showform, showOption, page]);
+  }, [showform, showOption, page, entries]);
 
   const fetchExpenses = (params) => {
+    params['page_size'] = entries;
     axios.get(`http://127.0.0.1:8000/api/transactions/?page=${page}`, {
       params: params,
       headers: {
@@ -92,7 +94,7 @@ function TransactionsPage() {
         'Authorization': `Token ${token}`
       }
     }).then(response => {
-      setTotalPages(Math.ceil(response.data.count / 5));
+      setTotalPages(Math.ceil(response.data.count / entries));
       setTransactions(response.data.results);
     });
   }
@@ -124,7 +126,15 @@ function TransactionsPage() {
         <button className="btn btn-secondary button-text" onClick={toggleOption} disabled={disabled}>Filter</button>
         <button className="btn btn-primary button-text" onClick={toggleForm} disabled={disabled}>Add Transaction</button>
       </div>
-      <div className='text-end mt-3'>
+      <div className="transaction-page-btns mt-3">
+        <div className="pagination">
+          <h5>No. of Entries Per Page</h5>
+          <select value={entries} onChange={(e) => { setEntries(e.target.value); setPage(1); }}>
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+          </select>
+        </div>
         <button className="btn btn-primary button-text" onClick={openFile} disabled={disabled}>Upload CSV</button>
         <input type="file" ref={fileInput} style={{ display: 'none' }} onChange={submitFile} />
       </div>

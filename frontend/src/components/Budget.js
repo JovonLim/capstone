@@ -7,7 +7,10 @@ function Budget({token}) {
   const [budget, setBudget] = useState({});
   const [remainingBudget, setRemainingBudget] = useState(0);
   const [budgetValue, setBudgetValue] = useState('');
+  const [spent, setSpent] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [notice, setNotice] = useState('');
+  const [exceed, setExceed] = useState(false);
 
   useEffect(() => {
     function fetchBudget() {
@@ -32,6 +35,7 @@ function Budget({token}) {
       }).then(response => {
         const { spent } = response.data;
         setRemainingBudget((parseFloat(data.budget) - spent).toFixed(2));
+        setSpent(spent);
       })
     }
 
@@ -39,6 +43,14 @@ function Budget({token}) {
       calculateRemaining(budget);
     }
   }, [budget]);
+
+  useEffect(() => {
+    if (remainingBudget < 0) {
+      setExceed(true);
+    } else {
+      setExceed(false);
+    }
+  }, [remainingBudget]);
 
   const toggleForm = () => {
     setShowForm(!showForm);
@@ -48,8 +60,23 @@ function Budget({token}) {
     }
   }
 
+  const displayMsg = (msg) => {
+    setNotice(msg);
+    const timer = setTimeout(() => {
+      setNotice('');
+    }, 4000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (budgetValue < spent) {
+      displayMsg("You have already spent that amount of budget!");
+      return;
+    }
     const headers = {
       'Content-Type': 'application/json',
       'X-CSRFToken': Cookies.get('csrftoken'),
@@ -65,6 +92,7 @@ function Budget({token}) {
       .then(response => {
         setBudget(response.data);
         toggleForm();
+        displayMsg("Edited Budget!");
       });
     } else {
       axios.post("http://127.0.0.1:8000/api/budgets/", {
@@ -76,6 +104,7 @@ function Budget({token}) {
       .then(response => {
         setBudget(response.data);
         toggleForm();
+        displayMsg("Added Budget!");
       })
     }
   }
@@ -84,8 +113,11 @@ return (
   <div>
     <h1 className="text-center mb-3">Budget</h1>
     <div class="card bg-dark text-white profile-form">
+      {exceed && <div className={"alert alert-danger mt-2 text-center exceed"}>You have exceeded your set budget. 
+        If you can't allocate more, take note of your spendings next time! </div>}
+      {notice && <div className={"alert alert-primary mt-2 text-center notice-animate"}>{notice}</div>}
       {!loading && (budget.id ? (<div className="text-center"><h3>Remaining Budget For This Month: </h3>
-        <h3>{remainingBudget}</h3></div>) : 
+        <h3 className="budget">{remainingBudget}</h3></div>) : 
       (<div className="text-center"><h3>You have not set a budget for this month!</h3>
         <h4>Click the set budget button to begin!</h4></div>))}
       

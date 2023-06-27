@@ -15,6 +15,13 @@ from dateutil.relativedelta import relativedelta
 from rest_framework.parsers import MultiPartParser, FormParser
 
 
+class CustomPagination(PageNumberPagination):
+    max_page_size = 20
+
+    def get_page_size(self, request):
+        page_size = int(request.query_params.get('page_size'))
+        return page_size
+    
 # Create your views here.
 class UserViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny]
@@ -64,8 +71,7 @@ class LogoutView(APIView):
 class TransactionViewSet(viewsets.ModelViewSet):
     serializer_class = TransactionSerializer
     queryset = Transaction.objects.all()
-    pagination_class = PageNumberPagination
-    page_size = 5
+    pagination_class = CustomPagination
     
     def create(self, request):
         csv_file = request.FILES.get('csv_file')
@@ -113,7 +119,6 @@ class TransactionViewSet(viewsets.ModelViewSet):
     
         transactions = transactions.filter(filter_conditions)
         pagination = self.pagination_class()
-        pagination.page_size = self.page_size
         page = pagination.paginate_queryset(queryset=transactions.order_by('-date'), request=request)
         serializer = self.get_serializer(page, many=True)
         return pagination.get_paginated_response(serializer.data)
