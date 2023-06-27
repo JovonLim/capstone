@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios'
 
-function FilterOptions({filteredDetails, setFilteredDetails, toggleOption, token, setPage}) {
+function FilterOptions({filteredDetails, setFilteredDetails, toggleOption, token, setPage, displayMsg}) {
 
   const [trType, setTrType] = useState('');
   const [categories, setCategories] = useState([]);
@@ -39,6 +39,7 @@ function FilterOptions({filteredDetails, setFilteredDetails, toggleOption, token
     } else {
       setFilter();
       setPage(1);
+      displayMsg('Filtered Transactions!');
       toggleOption();
     }
   }

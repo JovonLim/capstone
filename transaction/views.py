@@ -85,7 +85,6 @@ class TransactionViewSet(viewsets.ModelViewSet):
             return Response({"message": "Data Uploading"}, status=201)
         else :
             request.data['user'] = request.user.id
-            print(request.data)
             serializer = self.get_serializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()

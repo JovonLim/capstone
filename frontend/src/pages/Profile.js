@@ -49,45 +49,45 @@ function ProfilePage() {
     }
     fetchCount();
     fetchTotal();
-    }, []);
+  }, []);
 
-    const toggleForm = () => {
-      setShowForm(!showForm);
-      setPassword('');
-      setConfirmPassword('');
-    }
+  const toggleForm = () => {
+    setShowForm(!showForm);
+    setPassword('');
+    setConfirmPassword('');
+  }
 
-    const displayMsg = () => {
-      const timer = setTimeout(() => {
-        setSuccess(false);
-      }, 3000); 
+  const displayMsg = () => {
+    const timer = setTimeout(() => {
+      setSuccess(false);
+    }, 4000); 
   
-      return () => {
-        clearTimeout(timer); 
-      };
+    return () => {
+      clearTimeout(timer); 
     };
+  };
 
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      if (password !== confirmPassword) {
-        setError("Password does not match");
-        return;
-      }
-      axios.patch(`http://127.0.0.1:8000/api/users/${user.id}/`, {
-        password: password
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken': Cookies.get('csrftoken'),
-          'Authorization': `Token ${token}`
-        }
-      })
-      .then(response => {
-        toggleForm();
-        setSuccess(true);
-        displayMsg();
-      });
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (password !== confirmPassword) {
+      setError("Password does not match");
+      return;
     }
+    axios.patch(`http://127.0.0.1:8000/api/users/${user.id}/`, {
+      password: password
+    }, {
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': Cookies.get('csrftoken'),
+        'Authorization': `Token ${token}`
+      }
+    })
+    .then(response => {
+      toggleForm();
+      setSuccess(true);
+      displayMsg();
+    });
+  }
 
   return (
     <div className="container-fluid">
@@ -107,7 +107,7 @@ function ProfilePage() {
             </div>
             <div className="col-4 text-end">
               <button className="btn btn-danger button-text" onClick={toggleForm}>Change Password</button>
-              {success && <p className="alert alert-primary text-center mt-3">Password successfully changed!</p>}
+              {success && <div className="alert alert-primary text-center mt-3 success-animate">Password successfully changed!</div>}
               {showForm && (
                 <div className="card profile-form bg-dark text-white mt-2">
                   {error && <p className="alert alert-danger text-center">{error}</p>}

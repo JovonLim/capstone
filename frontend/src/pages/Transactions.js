@@ -23,14 +23,14 @@ function TransactionsPage() {
   const fileInput = useRef(null);
 
   const openFile = () => {
+    fileInput.current.value = '';
     fileInput.current.click();
   };
 
   const submitFile = (event) => {
     const file = event.target.files[0];
     if (file.type !== 'text/csv') {
-      setNotice('File is not a CSV');
-      displayMsg();
+      displayMsg('File is not a CSV');
       return;
     }
     const formData = new FormData();
@@ -43,27 +43,27 @@ function TransactionsPage() {
       }
     })
     .then(response => {
-      setNotice(response.data.message);
-      displayMsg();
+      displayMsg(response.data.message);
 
       const timer = setTimeout(() => {
         fetchExpenses(filteredDetails);
-      }, 3500);
+        displayMsg('Data Uploaded');
+      }, 4500);
 
       return () => {
         clearTimeout(timer);
       }
     })
     .catch(error => {       
-      setNotice(error.response.data.error);
-      displayMsg();
+      displayMsg(error.response.data.error);
     });
   };
 
-  const displayMsg = () => {
+  const displayMsg = (msg) => {
+    setNotice(msg);
     const timer = setTimeout(() => {
       setNotice('');
-    }, 3000);
+    }, 4000);
 
     return () => {
       clearTimeout(timer);
@@ -128,12 +128,13 @@ function TransactionsPage() {
         <button className="btn btn-primary button-text" onClick={openFile} disabled={disabled}>Upload CSV</button>
         <input type="file" ref={fileInput} style={{ display: 'none' }} onChange={submitFile} />
       </div>
-      {notice && <div className={"alert alert-primary mt-2 text-center"}>{notice}</div>}
-      {showform && <TransactionForm toggleForm={toggleForm} token={token} transaction={editTransaction} setEditTransaction={setEditTransaction} />}
+      {notice && <div className={"alert alert-primary mt-2 text-center notice-animate"}>{notice}</div>}
+      {showform && <TransactionForm toggleForm={toggleForm} token={token} transaction={editTransaction}
+       setEditTransaction={setEditTransaction} displayMsg={displayMsg} />}
       {showOption && <FilterOptions filteredDetails={filteredDetails} setFilteredDetails={setFilteredDetails}
-       toggleOption={toggleOption} token={token} setPage={setPage} />}
+       toggleOption={toggleOption} token={token} setPage={setPage} displayMsg={displayMsg}/>}
       {transactions.map((transaction) => (
-        <div key={transaction.id} className="card transaction">
+        <div key={transaction.id} className="card transaction card-animate">
           <div className="card-header headings bg-dark text-white">
             <span>{transaction.date}</span>
             <div className='transaction-btns'>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 import Cookies from 'js-cookie';
 
-function TransactionForm({toggleForm, token, transaction, setEditTransaction}) {
+function TransactionForm({toggleForm, token, transaction, setEditTransaction, displayMsg}) {
   const [amt, setAmt] = useState('');
   const [trType, setTrType] = useState('Expense');
   const [desc, setDesc] = useState('');
@@ -72,6 +72,7 @@ function TransactionForm({toggleForm, token, transaction, setEditTransaction}) {
       })
       .then(response=> {
         setEditTransaction({});
+        displayMsg("Edited Transaction!");
         toggleForm();
       });
 
@@ -88,6 +89,7 @@ function TransactionForm({toggleForm, token, transaction, setEditTransaction}) {
       })
       .then(response => {
         setEditTransaction({});
+        displayMsg("Added Transaction!");
         toggleForm();
       })
     }
