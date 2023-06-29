@@ -8,29 +8,38 @@ into their transaction habits over the past months.
 The Tracker was designed using ReactJS for the frontend, with Django REST API for the backend.
 
 ## Distinctiveness and Complexity
+For distinctiveness, I believe my project is completely different from the previous projects since it 
+serves users individually, which is not comparable to a social network, e-commerce site nor email client where
+users have to interact with one another. Instead, its purpose is for users to keep track and manage their finances 
+better via a user-friendly and responsive UI.
 
+Furthermore, while most of the previous projects have basic CRUD features, it didn't really make use of the 
+data apart from displaying it as it is. In my Transaction Tracker, existing transactions affect the amount of 
+the user's remaining budget and current account balance, which can influence their future spending habits.
+
+The transactions' data is also used to plot pie charts and line graphs to provide better visual representation of the users' transaction habits.
 
 
 ## Source Files 
-- `capstone` Directory: Core Django Application 
+- `capstone` directory: Core Django Application 
   - `init.py`: Empty file that serves as an indicator to Python that the directory is a Python package. 
   - `asgi.py`: ASGI config.
   - `settings.py`: Contains the settings for the core django application.
   - `urls.py`: Handles all the urls of the web application.
   - `wsgi.py`: WSGI config.
 
-- `frontend` Directory: Frontend application created using react-create-app
-    - `src` Directory: Source Code for the react application 
-      - `components` Directory: Source Code for components that are part of the differnet pages
+- `frontend` directory: Frontend application created using react-create-app
+    - `src` directory: Source Code for the react application 
+      - `components` directory: Source Code for components that are part of the different pages
         - `Budget.js`: Handles the add/update of monthly budget and the calculation of the remaining budget.
         - `FilterOptions.js`: Handles the filter form and setting filters for the transactions.
         - `LogoutBtn.js`: Handles the logout button on the navbar and clears the localStorage items.
         - `Navbar.js`: Handles the navigation bar on the top, setting navigation paths for the React Router.
         - `Statistics.js`: Handles the generation of statistics in the Profile page.
         - `UserForm.js`: Handles the user form for register/login.
-      - `pages` Directory: Source Code for pages that render when a user clicks the link on the navbar.
+      - `pages` directory: Source Code for pages that render when a user clicks the link on the navbar.
         - `Home.js`: If a user is not logged in, displays a welcome message and ask the user to register, else displays a message to
-          tell user to visit the transactions and profile page.
+            tell user to visit the transactions and profile page.
         - `Login.js`: Displays the user form that is used to authenticate the user in the web application.
         - `NotFound.js`: Displays a 404 Error if the user tried to enter an invalid path in the address bar.
         - `Profile.js`: Displays the profile page of the user, with statistics and budget setting.
@@ -41,9 +50,25 @@ The Tracker was designed using ReactJS for the frontend, with Django REST API fo
       - `styles.css`: Contains all the CSS used in the frontend.
       - `package.json`: Contains project metadata and a list of dependencies.
       - `package-lock.json`: Contains detailed dependency tree information.
-    - `public` Directory: Static assets and main HTML file
+    - `public` directory: Static assets and main HTML file
       - `index.html`: The main HTML file to be rendered.
       - `manifest.json`: Provide metadata about application.
+- `transaction` directory: Backend application created using django startapp
+  - `init.py`: Empty file that serves as an indicator to Python that the directory is a Python package. 
+  - `admin.py`: Used to register models into django admin.
+  - `apps.py`: Handles application config.
+  - `models.py`: Contains models of the web application. 
+      There are 3 models present:
+        1. User: Inherited from AbstractUser with an additional starting amount field.
+        2. Transaction: Contains details about the transaction and the user who added it.
+        3. Budget: Contains details about the monthly budget and the user who set it.
+  - `serializers.py`: Contains serializers for each model to be rendered into JSON responses. Serializers also validates incoming data and 
+      converts parsed data back to model objects.
+  - `tests.py`: Empty file meant for models testing. 
+  - `urls.py`: Contains URLs for the Django REST Framework views and includes additional paths for login and logout.
+  - `views.py`: Contains various views and viewsets for handling different API endpoints in the application.
+- `manage.py`: Provides various commands for managing a Django project.
+- `requirements.txt`: A list of Python packages to download.
 
 ## How to run 
 Prerequisites: Python and NodeJS have to be installed in your system.
@@ -51,7 +76,7 @@ Prerequisites: Python and NodeJS have to be installed in your system.
 1. Navigate to the project directory by running the command `cd capstone/` 
   in the folder where you placed the downloaded folder.
 
-2. Run the command `pip install -r requirements.txt` to install the neccessary python dependencies
+2. Run the command `pip install -r requirements.txt` to install the neccessary python packages
    to run the web application.
 
 3. Navigate to the frontend directory by running the command `cd frontend/`.
