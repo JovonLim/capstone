@@ -22,11 +22,28 @@ The Tracker was designed using ReactJS for the frontend, with Django REST API fo
 - `frontend` Directory: Frontend application created using react-create-app
     - `src` Directory: Source Code for the react application 
       - `components` Directory: Source Code for components that are part of the differnet pages
-        `Budget.js` Handles the add/update of budget and the calculation of the remaining budget.
+        - `Budget.js`: Handles the add/update of monthly budget and the calculation of the remaining budget.
+        - `FilterOptions.js`: Handles the filter form and setting filters for the transactions.
+        - `LogoutBtn.js`: Handles the logout button on the navbar and clears the localStorage items.
+        - `Navbar.js`: Handles the navigation bar on the top, setting navigation paths for the React Router.
+        - `Statistics.js`: Handles the generation of statistics in the Profile page.
+        - `UserForm.js`: Handles the user form for register/login.
+      - `pages` Directory: Source Code for pages that render when a user clicks the link on the navbar.
+        - `Home.js`: If a user is not logged in, displays a welcome message and ask the user to register, else displays a message to
+          tell user to visit the transactions and profile page.
+        - `Login.js`: Displays the user form that is used to authenticate the user in the web application.
+        - `NotFound.js`: Displays a 404 Error if the user tried to enter an invalid path in the address bar.
+        - `Profile.js`: Displays the profile page of the user, with statistics and budget setting.
+        - `Register.js`: Displays the user form that is used to register a user into the database.
+        - `Transactions.js`: Displays the various transactions the user has tracked, with options to add/filter transactions.
       - `App.js`: Main component and entry point for the application, sets up routing paths using React Router.
       - `index.js`: Renders the App component into the index.html root element.
       - `styles.css`: Contains all the CSS used in the frontend.
+      - `package.json`: Contains project metadata and a list of dependencies.
+      - `package-lock.json`: Contains detailed dependency tree information.
     - `public` Directory: Static assets and main HTML file
+      - `index.html`: The main HTML file to be rendered.
+      - `manifest.json`: Provide metadata about application.
 
 ## How to run 
 Prerequisites: Python and NodeJS have to be installed in your system.
