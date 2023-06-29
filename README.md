@@ -9,15 +9,23 @@ The Tracker was designed using ReactJS for the frontend, with Django REST API fo
 
 ## Distinctiveness and Complexity
 For distinctiveness, I believe my project is completely different from the previous projects since it 
-serves users individually, which is not comparable to a social network, e-commerce site nor email client where
+is user-centric, which is not comparable to a social network, e-commerce site nor email client where
 users have to interact with one another. Instead, its purpose is for users to keep track and manage their finances 
 better via a user-friendly and responsive UI.
 
-Furthermore, while most of the previous projects have basic CRUD features, the requirements didn't make use of the 
-data apart from displaying it as it is. In my Transaction Tracker, existing transactions affect the amount of 
-the user's remaining budget and current account balance, which can influence their future spending habits.
-The transactions' data is also used to plot pie charts and line graphs to provide better visual representation of the users' transaction habits.
+Furthermore, while most of the previous projects have basic CRUD features, they merely display the data as they are.
+In my Transaction Tracker, transactions dynamically adjusts the amount of the user's remaining budget and current account balance, 
+which provides real-time feedback and can influence their future spending habits. The transactions' data are also used to plot pie charts and 
+line graphs to provide better visual representation of the users' transaction habits.
 
+For complexity, the Transaction Tracker takes into account most of the topics that I have learnt throughout the course,
+such as user authentication, models, rendering, animations, user-responsive pages etc. All of the previous projects also utilized Django to provide 
+both the frontend templates and the backend API. For this project, I decided to learn ReactJS in order to separate the backend and frontend completely. 
+I also decided to learn the Django REST framework to provide the API for React to consume. This exposed me to many different classes and libraries, such as 
+viewsets, serializers, axios, chartJS etc. Learning how to integrate them together was the hardest and most complex part of the project for me since it was 
+very different from the other projects. Instead of rendering it from templates in Django with a context dictionary, I had to fetch the data when the page loads, 
+render them properly using JSX syntax and make them responsive as well. I also had to learn how to utilize Bootstrap effectively for most of the HTML 
+to achieve mobile responsiveness.
 
 ## Source Files 
 - `capstone` directory: Core Django Application 
@@ -39,7 +47,7 @@ The transactions' data is also used to plot pie charts and line graphs to provid
       - `pages` directory: Source Code for pages that render when a user clicks the link on the navbar.
         - `Home.js`: If a user is not logged in, displays a welcome message and ask the user to register, else displays a message to
             tell user to visit the transactions and profile page.
-        - `Login.js`: Displays the user form that is used to authenticate the user in the web application.
+        - `Login.js`: Displays the user form that is used to authenticate the user in the web application and set localStorage items.
         - `NotFound.js`: Displays a 404 Error if the user tried to enter an invalid path in the address bar.
         - `Profile.js`: Displays the profile page of the user, with statistics and budget setting.
         - `Register.js`: Displays the user form that is used to register a user into the database.
