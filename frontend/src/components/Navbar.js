@@ -11,7 +11,7 @@ function Navbar() {
     links = 
     <>
     <li class="nav-item">
-      <NavLink to="/expenses" className="nav-link" style={{fontFamily: 'cursive'}}>All Transactions</NavLink>
+      <NavLink to="/expenses" className="nav-link" style={{fontFamily: 'cursive'}}>Transactions</NavLink>
     </li>
     <li class="nav-item">
       <NavLink to="/profile" className="nav-link" style={{fontFamily: 'cursive'}}>Profile</NavLink>

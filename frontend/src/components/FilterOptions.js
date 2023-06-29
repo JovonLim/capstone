@@ -62,9 +62,9 @@ function FilterOptions({filteredDetails, setFilteredDetails, toggleOption, token
   };
 
   return (
-    <div className='center transaction-form'>
+    <div className='center transaction-form form-animate rounded border border-white'>
       <h3>Filter</h3>
-      {error && <p className="alert alert-danger">To Date must be after From Date!</p>}
+      {error && <p className="alert alert-danger filter-error">To Date must be after From Date!</p>}
       <form onSubmit={handleSubmit}>
         <div className="form-group mb-3">
           <label>Transaction Type:</label>

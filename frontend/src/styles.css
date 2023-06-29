@@ -17,11 +17,6 @@ body {
   margin-right: auto;
 }
 
-.user {
-  margin-top: 20vh;
-  width: 20vw;
-}
-
 h1 {
   font-size: 40px;
 }
@@ -125,6 +120,11 @@ h3 {
   animation: slide-in 1.5s ease-in-out forwards;
 }
 
+.form-animate {
+  transform: translateY(-30px);
+  animation: slide-in-form 1.5s ease forwards;
+}
+
 .notice-animate {
   opacity: 0;
   animation: fade-in-out 3.5s ease forwards;
@@ -175,6 +175,17 @@ h3 {
   animation: fade-in 1s ease-in-out forwards;
 }
 
+.filter-error {
+  opacity: 0;
+  animation: fade-in-height 1s ease-in-out forwards;
+}
+
+.user {
+  margin-top: 20vh;
+  width: 20vw;
+  animation: slide-in 1.5s ease-in-out forwards;
+}
+
 @media (max-width: 768px) {
   .h1-fade-in {
     font-size: 40px;
@@ -193,6 +204,20 @@ h3 {
   }
 }
 
+@keyframes fade-in-height {
+  from  {
+    opacity: 0;
+    height: 0px;
+    line-height: 0px;
+  }
+
+  to {
+    opacity: 1;
+    height: 100%;
+    line-height: 100%;
+  }
+}
+
 @keyframes slide-in {
   from {
     opacity: 0;
@@ -200,6 +225,15 @@ h3 {
   }
   to {
     opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-in-form {
+  from {
+    transform: translateY(-30px);
+  }
+  to {
     transform: translateY(0);
   }
 }

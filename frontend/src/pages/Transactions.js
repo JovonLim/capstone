@@ -121,7 +121,7 @@ function TransactionsPage() {
 
   return (
     <div className="container">
-      <h1 className="text-center mt-3">All Transactions</h1>
+      <h1 className="text-center mt-3">Transactions</h1>
       <div className="transaction-page-btns">
         <button className="btn btn-secondary button-text" onClick={toggleOption} disabled={disabled}>Filter</button>
         <button className="btn btn-primary button-text" onClick={toggleForm} disabled={disabled}>Add Transaction</button>

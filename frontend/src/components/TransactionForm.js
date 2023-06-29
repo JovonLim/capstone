@@ -105,7 +105,7 @@ function TransactionForm({toggleForm, token, transaction, setEditTransaction, di
   };
 
   return (
-    <div className='center transaction-form'>
+    <div className='center transaction-form form-animate rounded border border-white'>
       {transaction.id ? <h3>Edit Transaction</h3> : <h3>Add new Transaction</h3>}
       <form onSubmit={handleSubmit}>
         <div className="form-group mb-3">
