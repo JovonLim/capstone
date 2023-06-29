@@ -19,7 +19,14 @@ The Tracker was designed using ReactJS for the frontend, with Django REST API fo
   - `urls.py`: Handles all the urls of the web application.
   - `wsgi.py`: WSGI config.
 
-- `frontend` Directory: Frontend app created using react-create-app
+- `frontend` Directory: Frontend application created using react-create-app
+    - `src` Directory: Source Code for the react application 
+      - `components` Directory: Source Code for components that are part of the differnet pages
+        `Budget.js` Handles the add/update of budget and the calculation of the remaining budget.
+      - `App.js`: Main component and entry point for the application, sets up routing paths using React Router.
+      - `index.js`: Renders the App component into the index.html root element.
+      - `styles.css`: Contains all the CSS used in the frontend.
+    - `public` Directory: Static assets and main HTML file
 
 ## How to run 
 Prerequisites: Python and NodeJS have to be installed in your system.
