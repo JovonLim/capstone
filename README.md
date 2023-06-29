@@ -19,12 +19,12 @@ which provides real-time feedback and can influence their future spending habits
 line graphs to provide better visual representation of the users' transaction habits.
 
 For complexity, the Transaction Tracker takes into account most of the topics that I have learnt throughout the course,
-such as user authentication, models, rendering, animations, user-responsive pages etc. All of the previous projects also utilized Django to provide 
+such as user authentication, models, rendering, animations, user-responsive pages etc. All of the previous projects utilized Django to provide 
 both the frontend templates and the backend API. For this project, I decided to learn ReactJS in order to separate the backend and frontend completely. 
 I also decided to learn the Django REST framework to provide the API for React to consume. This exposed me to many different classes and libraries, such as 
 viewsets, serializers, axios, chartJS etc. Learning how to integrate them together was the hardest and most complex part of the project for me since it was 
 very different from the other projects. Instead of rendering it from templates in Django with a context dictionary, I had to fetch the data when the page loads, 
-render them properly using JSX syntax and make them responsive as well. I also had to learn how to utilize Bootstrap effectively for most of the HTML 
+render them properly using JSX syntax and make them user-responsive as well. I also had to learn how to utilize Bootstrap effectively for most of the HTML 
 to achieve mobile responsiveness.
 
 ## Source Files 
