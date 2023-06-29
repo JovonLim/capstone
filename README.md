@@ -56,11 +56,11 @@ The transactions' data is also used to plot pie charts and line graphs to provid
   - `init.py`: Empty file that serves as an indicator to Python that the directory is a Python package. 
   - `admin.py`: Used to register models into django admin.
   - `apps.py`: Handles application config.
-  - `models.py`: Contains models of the web application. 
-      There are 3 models present:
-        1. User: Inherited from AbstractUser with an additional starting amount field.
-        2. Transaction: Contains details about the transaction and the user who added it.
-        3. Budget: Contains details about the monthly budget and the user who set it.
+  - `models.py`: Contains models of the web application.
+    - There are 3 models present:
+      - User: Inherited from AbstractUser with an additional starting amount field.
+      - Transaction: Contains details about the transaction and the user who added it.
+      - Budget: Contains details about the monthly budget and the user who set it.
   - `serializers.py`: Contains serializers for each model to be rendered into JSON responses. Serializers also validates incoming data and 
       converts parsed data back to model objects.
   - `tests.py`: Empty file meant for models testing. 
