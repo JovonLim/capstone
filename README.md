@@ -13,10 +13,9 @@ serves users individually, which is not comparable to a social network, e-commer
 users have to interact with one another. Instead, its purpose is for users to keep track and manage their finances 
 better via a user-friendly and responsive UI.
 
-Furthermore, while most of the previous projects have basic CRUD features, it didn't really make use of the 
+Furthermore, while most of the previous projects have basic CRUD features, the requirements didn't make use of the 
 data apart from displaying it as it is. In my Transaction Tracker, existing transactions affect the amount of 
 the user's remaining budget and current account balance, which can influence their future spending habits.
-
 The transactions' data is also used to plot pie charts and line graphs to provide better visual representation of the users' transaction habits.
 
 
