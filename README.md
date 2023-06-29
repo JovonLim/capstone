@@ -92,7 +92,7 @@ Prerequisites: Python and NodeJS have to be installed in your system.
 
 5. Run the command `npm run build` to build the files needed to render the web application.
 
-6. Return to the outer directory and run the command `py manage.py transaction makemigrations`, then `py manage.py migrate`
+6. Return to the outer directory and run the command `py manage.py makemigrations transaction`, then `py manage.py migrate`
   to create the database needed for the web application.
 
 7. To run the application, run the command `py manage.py runserver`.
