@@ -81,13 +81,16 @@ class TransactionViewSet(viewsets.ModelViewSet):
             csv_reader = csv.DictReader(csv_data.splitlines())
             for row in csv_reader:
                 row['user'] = request.user.id 
-                date = datetime.strptime(row['date'], "%d/%m/%Y")
-                row['date'] = date.strftime("%Y-%m-%d")
-                serializer = self.get_serializer(data=row)
-                if serializer.is_valid():
-                    serializer.save()
-                else :
-                    return Response({"error": "Some Data Uploaded is Invalid"}, status=400)
+                try : 
+                    date = datetime.strptime(row['date'], "%d/%m/%Y")
+                    row['date'] = date.strftime("%Y-%m-%d")
+                    serializer = self.get_serializer(data=row)
+                    if serializer.is_valid():
+                        serializer.save()
+                    else :
+                        return Response({"error": "Data should contain the following fields 'amt, category, tr_type, date, description`"}, status=400)
+                except KeyError :
+                    return Response({"error": "Data should contain the following fields 'amt, category, tr_type, date, description`"}, status=400)
             return Response({"message": "Data Uploading"}, status=201)
         else :
             request.data['user'] = request.user.id
