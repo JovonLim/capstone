@@ -9,7 +9,7 @@ The Tracker was designed using ReactJS for the frontend, with Django REST API fo
 
 ## Distinctiveness and Complexity
 For distinctiveness, I believe my project is completely different from the previous projects since it 
-is user-centric, which is not comparable to a social network, e-commerce site nor email client where
+serves users individually, which is not comparable to a social network, e-commerce site nor email client where
 users have to interact with one another. Instead, its purpose is for users to keep track and manage their finances 
 better via a user-friendly and responsive UI.
 
